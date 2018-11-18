@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             String details = extras.getString("DETAILS_KEY");
             int cost = extras.getInt("COST_KEY");
+            String date = extras.getString("DATE_KEY");
             receipt.setDetails(details);
             receipt.setCost(cost);
-            Log.i("MyActivity", "Hello " + receipt.getDetails());
-            Log.i("MyActivity4", "Hello " + details);
+            receipt.setDate(date);
             mReceiptViewModel.insert(receipt);
         } else {
             Toast.makeText(

@@ -34,28 +34,8 @@ public abstract class ReceiptRoomDatabase extends RoomDatabase{
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db){
             super.onOpen(db);
-            //new PopulateDbAsync(INSTANCE).execute();
         }
     };
-
-    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-
-        private final ReceiptDao mDao;
-
-        PopulateDbAsync(ReceiptRoomDatabase db) {
-            mDao = db.receiptDao();
-        }
-
-        @Override
-        protected Void doInBackground(final Void... params) {
-            mDao.deleteAll();
-            Receipt receipt = new Receipt();
-            receipt.setDetails("Burger");
-            receipt.setCost(2);
-            mDao.insert(receipt);
-            return null;
-        }
-    }
 
 
 }

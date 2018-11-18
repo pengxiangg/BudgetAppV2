@@ -18,6 +18,7 @@ public class Receipt {
 
     private String details;
     private int cost;
+    private String date;
 
     public int getId() { return id; }
 
@@ -30,4 +31,8 @@ public class Receipt {
     public int getCost() { return cost; }
 
     public void setCost(int cost) { this.cost = cost; }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 }
