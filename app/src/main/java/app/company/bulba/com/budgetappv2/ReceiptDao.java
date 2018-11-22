@@ -23,4 +23,7 @@ public interface ReceiptDao {
     @Query("SELECT * FROM receipt_table")
     LiveData<List<Receipt>> getAllReceipts();
 
+    @Query("SELECT SUM(cost) FROM receipt_table")
+    LiveData<Integer> getTotalCost();
+
 }

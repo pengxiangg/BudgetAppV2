@@ -25,4 +25,6 @@ public class ReceiptViewModel extends AndroidViewModel {
     LiveData<List<Receipt>> getAllReceipts() {return mAllReceipts; }
 
     public void insert(Receipt receipt) { mRepository.insert(receipt);}
+
+    LiveData<Integer> getTotalCost() { return mRepository.getTotalCost(); }
 }
