@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
  * Created by Zachary on 17/11/2018.
  */
 
-@Database(entities = {Receipt.class}, version = 1)
+@Database(entities = {Receipt.class, Budget.class}, version = 1)
 public abstract class ReceiptRoomDatabase extends RoomDatabase{
 
     public abstract ReceiptDao receiptDao();
+    public abstract BudgetDao budgetDao();
 
     private static volatile ReceiptRoomDatabase INSTANCE;
 
