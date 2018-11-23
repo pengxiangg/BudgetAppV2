@@ -56,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         mReceiptViewModel.getTotalCost().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
+                if (integer == null) {
+                    integer = 0;
+                }
                 totalCostTextView.setText(Integer.toString(integer));
+
             }
         });
     }
@@ -70,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
             String details = extras.getString("DETAILS_KEY");
             int cost = extras.getInt("COST_KEY");
             String date = extras.getString("DATE_KEY");
+            String category = extras.getString("CATEGORY_KEY");
             receipt.setDetails(details);
             receipt.setCost(cost);
             receipt.setDate(date);
+            receipt.setCategory(category);
             mReceiptViewModel.insert(receipt);
         } else {
             Toast.makeText(

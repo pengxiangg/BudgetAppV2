@@ -19,7 +19,6 @@ public class ReceiptRepository {
         ReceiptRoomDatabase db = ReceiptRoomDatabase.getDatabase(application);
         mReceiptDao = db.receiptDao();
         mAllReceipts = mReceiptDao.getAllReceipts();
-        //mTotalCost = mReceiptDao.getTotalCost();
     }
 
     LiveData<List<Receipt>> getAllReceipts() {

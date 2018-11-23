@@ -27,6 +27,7 @@ public class NewReceiptActivity extends AppCompatActivity {
     private EditText mDetailsEditView;
     private EditText mCostEditView;
     private EditText mDateEditView;
+    private EditText mCategoryEditView;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
@@ -36,6 +37,7 @@ public class NewReceiptActivity extends AppCompatActivity {
         mDetailsEditView = findViewById(R.id.details_editView);
         mCostEditView = findViewById(R.id.cost_editView);
         mDateEditView = findViewById(R.id.date_editView);
+        mCategoryEditView = findViewById(R.id.category_editView);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         mDateEditView.setText(sdf.format(new Date()));
@@ -73,6 +75,7 @@ public class NewReceiptActivity extends AppCompatActivity {
                 String costString = mCostEditView.getText().toString();
                 int costInt = Integer.parseInt(costString);
                 String date = mDateEditView.getText().toString();
+                String category = mCategoryEditView.getText().toString();
 
                 if(details.length() == 0 || costString.length() == 0 || date.length() == 0) {
                     Toast.makeText(NewReceiptActivity.this, "Please make sure all details are correct", Toast.LENGTH_LONG).show();
@@ -83,6 +86,7 @@ public class NewReceiptActivity extends AppCompatActivity {
                 bundle.putString("DETAILS_KEY", details);
                 bundle.putInt("COST_KEY", costInt);
                 bundle.putString("DATE_KEY", date);
+                bundle.putString("CATEGORY_KEY", category);
 
                 replyIntent.putExtras(bundle);
                 setResult(RESULT_OK, replyIntent);

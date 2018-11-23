@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+
 /**
  * Created by Zachary on 17/11/2018.
  */
@@ -19,6 +20,7 @@ public class Receipt {
     private String details;
     private int cost;
     private String date;
+    private String category;
 
     public int getId() { return id; }
 
@@ -35,4 +37,8 @@ public class Receipt {
     public String getDate() { return date; }
 
     public void setDate(String date) { this.date = date; }
+
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) {this.category = category; }
 }

@@ -20,12 +20,14 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
         private final TextView detailsItemView;
         private final TextView costItemView;
         private final TextView dateItemView;
+        private final TextView categoryItemView;
 
         private ReceiptViewHolder(View itemView) {
             super(itemView);
             detailsItemView = itemView.findViewById(R.id.details_textView);
             costItemView = itemView.findViewById(R.id.cost_textView);
             dateItemView = itemView.findViewById(R.id.date_textView);
+            categoryItemView = itemView.findViewById(R.id.category_textView);
         }
     }
 
@@ -47,10 +49,12 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             holder.detailsItemView.setText(current.getDetails());
             holder.costItemView.setText(Integer.toString(current.getCost()));
             holder.dateItemView.setText(current.getDate());
+            holder.categoryItemView.setText(current.getCategory());
         } else {
             holder.detailsItemView.setText("No Details");
             holder.costItemView.setText("No Cost");
             holder.dateItemView.setText("No Date");
+            holder.categoryItemView.setText("No Category");
         }
     }
 

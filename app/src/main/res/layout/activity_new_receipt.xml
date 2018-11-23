@@ -33,6 +33,12 @@
         android:hint="Details"/>
 
     <EditText
+        android:id="@+id/category_editView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Category"/>
+
+    <EditText
         android:id="@+id/cost_editView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
