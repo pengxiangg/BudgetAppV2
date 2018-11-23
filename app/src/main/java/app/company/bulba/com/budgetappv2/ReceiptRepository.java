@@ -13,17 +13,23 @@ import java.util.List;
 
 public class ReceiptRepository {
     private ReceiptDao mReceiptDao;
+    private BudgetDao mBudgetDao;
     private LiveData<List<Receipt>> mAllReceipts;
+    private LiveData<List<Budget>> mAllBudgets;
 
     ReceiptRepository(Application application) {
         ReceiptRoomDatabase db = ReceiptRoomDatabase.getDatabase(application);
         mReceiptDao = db.receiptDao();
+        mBudgetDao = db.budgetDao();
         mAllReceipts = mReceiptDao.getAllReceipts();
+        mAllBudgets = mBudgetDao.getAllBudgets();
     }
 
     LiveData<List<Receipt>> getAllReceipts() {
         return mAllReceipts;
     }
+
+    LiveData<List<Budget>> getAllBudgets() { return mAllBudgets; }
 
     LiveData<Integer> getTotalCost() {
         return mReceiptDao.getTotalCost();
@@ -32,6 +38,8 @@ public class ReceiptRepository {
     public void insert(Receipt receipt) {
         new insertAsyncTask(mReceiptDao).execute(receipt);
     }
+
+    public void insert(Budget budget) { new insertBudgetAsyncTask(mBudgetDao).execute(budget); }
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
@@ -44,6 +52,18 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(Receipt... receipts) {
             mAsyncTaskDao.insert(receipts[0]);
+            return null;
+        }
+    }
+    private static class insertBudgetAsyncTask extends AsyncTask<Budget, Void, Void> {
+
+        private BudgetDao mBudgetAsyncTaskDao;
+
+        insertBudgetAsyncTask(BudgetDao dao) {mBudgetAsyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground(Budget... budgets) {
+            mBudgetAsyncTaskDao.insert(budgets[0]);
             return null;
         }
     }
