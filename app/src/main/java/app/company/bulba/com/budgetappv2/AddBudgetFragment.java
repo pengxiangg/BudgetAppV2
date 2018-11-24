@@ -14,7 +14,7 @@ import android.widget.EditText;
  * Created by Zachary on 23/11/2018.
  */
 
-public class BudgetFragment extends Fragment {
+public class AddBudgetFragment extends Fragment {
 
     private EditText categoryET;
     private EditText limitET;
@@ -22,7 +22,7 @@ public class BudgetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_budget, parent, false);
+        return inflater.inflate(R.layout.fragment_budget_add, parent, false);
     }
 
     @Override

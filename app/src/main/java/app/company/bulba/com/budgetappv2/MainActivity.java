@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = ReceiptFragment.class;
                 break;
             case R.id.nav_budget_fragment:
-                fragmentClass = BudgetFragment.class;
+                fragmentClass = AddBudgetFragment.class;
                 break;
             default:
                 fragmentClass = ReceiptFragment.class;
