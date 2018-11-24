@@ -5,8 +5,12 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
+import app.company.bulba.com.budgetappv2.data.Budget;
+import app.company.bulba.com.budgetappv2.data.BudgetDao;
+import app.company.bulba.com.budgetappv2.data.Receipt;
+import app.company.bulba.com.budgetappv2.data.ReceiptDao;
 
 /**
  * Created by Zachary on 17/11/2018.

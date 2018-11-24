@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_receipt_fragment"
-            android:title="BudgetAppV2"/>
+            android:title="Receipts"/>
         <item
             android:id="@+id/nav_budget_fragment"
             android:title="Budget"/>

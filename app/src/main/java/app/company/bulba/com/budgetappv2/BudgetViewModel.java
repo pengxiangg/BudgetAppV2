@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import app.company.bulba.com.budgetappv2.data.Budget;
+
 /**
  * Created by Zachary on 23/11/2018.
  */

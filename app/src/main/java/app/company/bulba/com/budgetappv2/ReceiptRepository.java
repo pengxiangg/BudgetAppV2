@@ -3,9 +3,13 @@ package app.company.bulba.com.budgetappv2;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.List;
+
+import app.company.bulba.com.budgetappv2.data.Budget;
+import app.company.bulba.com.budgetappv2.data.BudgetDao;
+import app.company.bulba.com.budgetappv2.data.Receipt;
+import app.company.bulba.com.budgetappv2.data.ReceiptDao;
 
 /**
  * Created by Zachary on 17/11/2018.

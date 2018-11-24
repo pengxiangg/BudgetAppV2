@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import app.company.bulba.com.budgetappv2.data.Receipt;
+
 import static android.app.Activity.RESULT_OK;
 
 /**

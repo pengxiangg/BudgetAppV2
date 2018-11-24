@@ -1,4 +1,4 @@
-package app.company.bulba.com.budgetappv2;
+package app.company.bulba.com.budgetappv2.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
