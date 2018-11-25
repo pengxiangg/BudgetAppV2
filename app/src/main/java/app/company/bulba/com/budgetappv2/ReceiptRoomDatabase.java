@@ -5,6 +5,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
@@ -28,7 +29,7 @@ public abstract class ReceiptRoomDatabase extends RoomDatabase{
         if(INSTANCE == null) {
             synchronized (ReceiptRoomDatabase.class) {
                 if(INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReceiptRoomDatabase.class, "receipt_database").addCallback(sRoomDatabaseCallback).build();
+                    INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), ReceiptRoomDatabase.class).addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
@@ -39,10 +40,30 @@ public abstract class ReceiptRoomDatabase extends RoomDatabase{
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db){
             super.onOpen(db);
+            new PopulateDbAsync(INSTANCE).execute();
         }
     };
 
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
+        private final BudgetDao mDao;
+
+        PopulateDbAsync(ReceiptRoomDatabase db) {
+            mDao = db.budgetDao();
+        }
+
+        @Override
+        protected Void doInBackground(final Void... params) {
+            mDao.deleteAll();
+            Budget word = new Budget();
+            word.setCategory("Testing3");
+            word.setLimit(2);
+            word.setSpent(3);
+            word.setRemainder(4);
+            mDao.insert(word);
+            return null;
+        }
+    }
 
 
 

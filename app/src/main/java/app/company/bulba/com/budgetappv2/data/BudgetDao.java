@@ -14,6 +14,9 @@ import java.util.List;
 @Dao
 public interface BudgetDao {
 
+    @Query("DELETE FROM budget_table")
+    void deleteAll();
+
     @Insert
     public void insert(Budget budget);
 

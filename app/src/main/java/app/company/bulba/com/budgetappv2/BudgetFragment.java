@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class BudgetFragment extends Fragment {
         final BudgetListAdapter adapter = new BudgetListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mBudgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
+        mBudgetViewModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
 
         mBudgetViewModel.getAllBudgets().observe(this, new Observer<List<Budget>>() {
             @Override
@@ -57,6 +58,18 @@ public class BudgetFragment extends Fragment {
                 AddBudgetFragment fragment = new AddBudgetFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
                         .commit();
+            }
+        });
+
+        mBudgetViewModel.getStringo().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                Log.v("TAG: HI", "Cat: " + s);
+                Budget budget = new Budget();
+                budget.setCategory(s);
+                budget.setLimit(99);
+                budget.setSpent(99);
+                mBudgetViewModel.insert(budget);
             }
         });
 

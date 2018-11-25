@@ -52,9 +52,9 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
         if(mBudget != null) {
             Budget current = mBudget.get(position);
             holder.categoryItemView.setText(current.getCategory());
-            holder.limitItemView.setText(current.getLimit());
-            holder.spentItemView.setText(current.getSpent());
-            holder.remainderItemView.setText(current.getRemainder());
+            holder.limitItemView.setText(Integer.toString(current.getLimit()));
+            holder.spentItemView.setText(Integer.toString(current.getSpent()));
+            holder.remainderItemView.setText(Integer.toString(current.getRemainder()));
         } else {
             holder.categoryItemView.setText("No Category");
             holder.limitItemView.setText("No Limit");
