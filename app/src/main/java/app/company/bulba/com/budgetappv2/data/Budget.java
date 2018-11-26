@@ -13,7 +13,7 @@ public class Budget {
 
     @PrimaryKey
     @NonNull
-    private String category;
+    private String budgetCategory;
 
     private int limit;
 
@@ -21,8 +21,8 @@ public class Budget {
 
     private int remainder;
 
-    public String getCategory() {return category;}
-    public void setCategory(String category) {this.category = category; }
+    public String getBudgetCategory() {return budgetCategory;}
+    public void setBudgetCategory(String budgetCategory) {this.budgetCategory = budgetCategory; }
 
     public int getLimit() {return limit; }
     public void setLimit(int limit) {this.limit = limit; }

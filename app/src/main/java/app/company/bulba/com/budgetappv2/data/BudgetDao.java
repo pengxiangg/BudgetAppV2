@@ -22,4 +22,7 @@ public interface BudgetDao {
 
     @Query("SELECT * FROM budget_table")
     LiveData<List<Budget>> getAllBudgets();
+
+    @Query("SELECT budgetCategory FROM budget_table")
+    LiveData<List<String>> getAllCategories();
 }

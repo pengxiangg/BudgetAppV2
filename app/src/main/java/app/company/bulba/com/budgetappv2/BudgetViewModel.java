@@ -19,7 +19,6 @@ public class BudgetViewModel extends AndroidViewModel {
 
     private ReceiptRepository mRepository;
     private LiveData<List<Budget>> mAllBudgets;
-    private final MutableLiveData<String> selected = new MutableLiveData<String>();
 
     public BudgetViewModel (@NonNull Application application) {
         super(application);
@@ -31,11 +30,6 @@ public class BudgetViewModel extends AndroidViewModel {
 
     public void insert(Budget budget) {mRepository.insert(budget);}
 
-    public void transfer(String string) {
-        selected.setValue(string);
-    }
+    LiveData<List<String>> getAllCategories() { return mRepository.getAllCategories(); }
 
-    public LiveData<String> getStringo() {
-        return selected;
-    }
 }

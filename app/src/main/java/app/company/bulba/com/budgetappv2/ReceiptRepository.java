@@ -45,6 +45,8 @@ public class ReceiptRepository {
 
     public void insert(Budget budget) { new insertBudgetAsyncTask(mBudgetDao).execute(budget); }
 
+    LiveData<List<String>> getAllCategories() { return mBudgetDao.getAllCategories(); }
+
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
         private ReceiptDao mAsyncTaskDao;

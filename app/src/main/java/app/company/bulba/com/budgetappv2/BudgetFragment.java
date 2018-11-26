@@ -61,17 +61,6 @@ public class BudgetFragment extends Fragment {
             }
         });
 
-        mBudgetViewModel.getStringo().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.v("TAG: HI", "Cat: " + s);
-                Budget budget = new Budget();
-                budget.setCategory(s);
-                budget.setLimit(99);
-                budget.setSpent(99);
-                mBudgetViewModel.insert(budget);
-            }
-        });
 
     }
 }
