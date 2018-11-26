@@ -22,15 +22,11 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
     class BudgetViewHolder extends RecyclerView.ViewHolder {
         private final TextView categoryItemView;
         private final TextView limitItemView;
-        private final TextView spentItemView;
-        private final TextView remainderItemView;
 
         private BudgetViewHolder (View itemView) {
             super(itemView);
             categoryItemView = itemView.findViewById(R.id.budget_category_textView);
             limitItemView = itemView.findViewById(R.id.budget_limit_textView);
-            spentItemView = itemView.findViewById(R.id.budget_spent_textView);
-            remainderItemView = itemView.findViewById(R.id.budget_remain_textView);
         }
 
     }
@@ -53,13 +49,9 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
             Budget current = mBudget.get(position);
             holder.categoryItemView.setText(current.getBudgetCategory());
             holder.limitItemView.setText(Integer.toString(current.getLimit()));
-            holder.spentItemView.setText(Integer.toString(current.getSpent()));
-            holder.remainderItemView.setText(Integer.toString(current.getRemainder()));
         } else {
             holder.categoryItemView.setText("No Category");
             holder.limitItemView.setText("No Limit");
-            holder.spentItemView.setText("No Spendings");
-            holder.remainderItemView.setText("No Remainder");
         }
 
     }

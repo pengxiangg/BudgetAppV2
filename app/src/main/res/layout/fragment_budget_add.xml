@@ -16,18 +16,6 @@
         android:layout_height="wrap_content"
         android:hint="Limit"
         android:inputType="number"/>
-    <EditText
-        android:id="@+id/spent_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Spent"
-        android:inputType="number"/>
-    <EditText
-        android:id="@+id/remainder_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Remainder"
-        android:inputType="number"/>
     <Button
         android:id="@+id/button_budget_submit"
         android:layout_width="match_parent"

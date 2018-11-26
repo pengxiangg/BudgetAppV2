@@ -17,19 +17,10 @@ public class Budget {
 
     private int limit;
 
-    private int spent;
-
-    private int remainder;
-
     public String getBudgetCategory() {return budgetCategory;}
     public void setBudgetCategory(String budgetCategory) {this.budgetCategory = budgetCategory; }
 
     public int getLimit() {return limit; }
     public void setLimit(int limit) {this.limit = limit; }
 
-    public int getSpent() { return spent; }
-    public void setSpent(int spent) {this.spent = spent; }
-
-    public int getRemainder() { return remainder; }
-    public void setRemainder(int remainder) {this.remainder = remainder; }
 }
