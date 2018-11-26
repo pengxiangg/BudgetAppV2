@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
 import app.company.bulba.com.budgetappv2.data.BudgetDao;
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
+import app.company.bulba.com.budgetappv2.data.MonthBudgetDao;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 import app.company.bulba.com.budgetappv2.data.ReceiptDao;
 
@@ -17,11 +19,12 @@ import app.company.bulba.com.budgetappv2.data.ReceiptDao;
  * Created by Zachary on 17/11/2018.
  */
 
-@Database(entities = {Receipt.class, Budget.class}, version = 1)
+@Database(entities = {Receipt.class, Budget.class, MonthBudget.class}, version = 1)
 public abstract class ReceiptRoomDatabase extends RoomDatabase{
 
     public abstract ReceiptDao receiptDao();
     public abstract BudgetDao budgetDao();
+    public abstract MonthBudgetDao monthBudgetDao();
 
     private static volatile ReceiptRoomDatabase INSTANCE;
 

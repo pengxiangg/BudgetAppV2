@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_budget_fragment:
                 fragmentClass = BudgetFragment.class;
+                break;
+            case R.id.nav_month_budget_fragment:
+                fragmentClass = MonthBudgetFragment.class;
                 break;
             default:
                 fragmentClass = ReceiptFragment.class;

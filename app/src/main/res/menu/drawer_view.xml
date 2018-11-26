@@ -8,6 +8,9 @@
         <item
             android:id="@+id/nav_budget_fragment"
             android:title="Budget"/>
+        <item
+            android:id="@+id/nav_month_budget_fragment"
+            android:title="Monthly Budget"/>
     </group>
 
 </menu>

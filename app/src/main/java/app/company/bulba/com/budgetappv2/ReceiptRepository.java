@@ -8,6 +8,8 @@ import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
 import app.company.bulba.com.budgetappv2.data.BudgetDao;
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
+import app.company.bulba.com.budgetappv2.data.MonthBudgetDao;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 import app.company.bulba.com.budgetappv2.data.ReceiptDao;
 
@@ -18,15 +20,19 @@ import app.company.bulba.com.budgetappv2.data.ReceiptDao;
 public class ReceiptRepository {
     private ReceiptDao mReceiptDao;
     private BudgetDao mBudgetDao;
+    private MonthBudgetDao mMonthBudgetDao;
     private LiveData<List<Receipt>> mAllReceipts;
     private LiveData<List<Budget>> mAllBudgets;
+    private LiveData<List<MonthBudget>> mAllMonthBudgets;
 
     ReceiptRepository(Application application) {
         ReceiptRoomDatabase db = ReceiptRoomDatabase.getDatabase(application);
         mReceiptDao = db.receiptDao();
         mBudgetDao = db.budgetDao();
+        mMonthBudgetDao = db.monthBudgetDao();
         mAllReceipts = mReceiptDao.getAllReceipts();
         mAllBudgets = mBudgetDao.getAllBudgets();
+        mAllMonthBudgets = mMonthBudgetDao.getAllMonthBudgets();
     }
 
     LiveData<List<Receipt>> getAllReceipts() {
@@ -34,6 +40,8 @@ public class ReceiptRepository {
     }
 
     LiveData<List<Budget>> getAllBudgets() { return mAllBudgets; }
+
+    LiveData<List<MonthBudget>> getAllMonthBudgets() { return mAllMonthBudgets; }
 
     LiveData<Integer> getTotalCost() {
         return mReceiptDao.getTotalCost();
@@ -44,6 +52,8 @@ public class ReceiptRepository {
     }
 
     public void insert(Budget budget) { new insertBudgetAsyncTask(mBudgetDao).execute(budget); }
+
+    public void insert (MonthBudget monthBudget) { new insertMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget); }
 
     LiveData<List<String>> getAllCategories() { return mBudgetDao.getAllCategories(); }
 
@@ -70,6 +80,19 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(Budget... budgets) {
             mBudgetAsyncTaskDao.insert(budgets[0]);
+            return null;
+        }
+    }
+
+    private static class insertMonthBudgetAsyncTask extends AsyncTask<MonthBudget, Void, Void> {
+
+        private MonthBudgetDao mMonthBudgetAsyncTaskDao;
+
+        insertMonthBudgetAsyncTask(MonthBudgetDao dao) {mMonthBudgetAsyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground(MonthBudget... monthBudgets) {
+            mMonthBudgetAsyncTaskDao.insert(monthBudgets[0]);
             return null;
         }
     }
