@@ -53,9 +53,9 @@ public class MonthBudgetListAdapter extends RecyclerView.Adapter<MonthBudgetList
             MonthBudget current = mMonthBudget.get(position);
             holder.mhDateItemView.setText(current.getMhDate());
             holder.mhCategoryItemView.setText(current.getMhCategory());
-            holder.mhLimitItemView.setText(current.getMhlimit());
-            holder.mhSpentItemView.setText(current.getMhSpent());
-            holder.mhRemainderItemView.setText(current.getMhRemainder());
+            holder.mhLimitItemView.setText(Integer.toString(current.getMhlimit()));
+            holder.mhSpentItemView.setText(Integer.toString(current.getMhSpent()));
+            holder.mhRemainderItemView.setText(Integer.toString(current.getMhRemainder()));
         } else {
             holder.mhDateItemView.setText("No Date");
             holder.mhCategoryItemView.setText("No Category");

@@ -1,5 +1,7 @@
 package app.company.bulba.com.budgetappv2;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
+
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
 
 /**
  * Created by Zachary on 26/11/2018.
@@ -32,6 +38,15 @@ public class MonthBudgetFragment extends Fragment {
         final MonthBudgetListAdapter adapter = new MonthBudgetListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mMonthBudgetViewModel = ViewModelProviders.of(getActivity()).get(MonthBudgetViewModel.class);
+
+        mMonthBudgetViewModel.getAllMonthBudgets().observe(this, new Observer<List<MonthBudget>>() {
+            @Override
+            public void onChanged(@Nullable List<MonthBudget> monthBudgets) {
+                adapter.setMonthBudgets(monthBudgets);
+            }
+        });
 
         /* every time new item created in receipt, add into this table
             if category and date already exists, update total spent

@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 
 public class NewReceiptFragment extends Fragment {
@@ -37,6 +38,7 @@ public class NewReceiptFragment extends Fragment {
     private EditText mCategoryEditView;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private ReceiptViewModel mReceiptViewModel;
+    private MonthBudgetViewModel mMonthBudgetViewModel;
 
     @Nullable
     @Override
@@ -57,6 +59,8 @@ public class NewReceiptFragment extends Fragment {
         mDateEditView.setText(sdf.format(new Date()));
 
         mReceiptViewModel = ViewModelProviders.of(this).get(ReceiptViewModel.class);
+
+        mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
 
         mDateEditView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +115,15 @@ public class NewReceiptFragment extends Fragment {
                 receipt.setDate(date);
                 receipt.setCategory(category);
                 mReceiptViewModel.insert(receipt);
+
+                String[] parts = date.split("/", 2);
+                String monthDate = parts[1];
+                MonthBudget monthBudget = new MonthBudget();
+                monthBudget.setMhDate(monthDate);
+                monthBudget.setMhCategory(category);
+                mMonthBudgetViewModel.insert(monthBudget);
+
+
                 ReceiptFragment fragment = new ReceiptFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
                         .commit();
