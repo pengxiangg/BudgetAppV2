@@ -58,8 +58,9 @@ public class ReceiptFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), NewReceiptActivity.class);
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+                NewReceiptFragment fragment = new NewReceiptFragment();
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
+                        .commit();
             }
         });
 
@@ -77,26 +78,4 @@ public class ReceiptFragment extends Fragment {
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Receipt receipt = new Receipt();
-            Bundle extras = data.getExtras();
-            String details = extras.getString("DETAILS_KEY");
-            int cost = extras.getInt("COST_KEY");
-            String date = extras.getString("DATE_KEY");
-            String category = extras.getString("CATEGORY_KEY");
-            receipt.setDetails(details);
-            receipt.setCost(cost);
-            receipt.setDate(date);
-            receipt.setCategory(category);
-            mReceiptViewModel.insert(receipt);
-        } else {
-            Toast.makeText(
-                    getActivity(),
-                    "Error",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
 }

@@ -32,5 +32,13 @@ public class MonthBudgetFragment extends Fragment {
         final MonthBudgetListAdapter adapter = new MonthBudgetListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        /* every time new item created in receipt, add into this table
+            if category and date already exists, update total spent
+            else create new category and date with total spent
+
+            search budget table for limit
+         */
+
     }
 }

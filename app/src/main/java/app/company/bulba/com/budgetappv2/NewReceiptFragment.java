@@ -1,14 +1,19 @@
 package app.company.bulba.com.budgetappv2;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,7 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewReceiptActivity extends AppCompatActivity {
+import app.company.bulba.com.budgetappv2.data.Receipt;
+
+public class NewReceiptFragment extends Fragment {
 
     public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
 
@@ -29,18 +36,27 @@ public class NewReceiptActivity extends AppCompatActivity {
     private EditText mDateEditView;
     private EditText mCategoryEditView;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private ReceiptViewModel mReceiptViewModel;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_new_receipt, container, false);
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_receipt);
-        mDetailsEditView = findViewById(R.id.details_editView);
-        mCostEditView = findViewById(R.id.cost_editView);
-        mDateEditView = findViewById(R.id.date_editView);
-        mCategoryEditView = findViewById(R.id.category_editView);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mDetailsEditView = getView().findViewById(R.id.details_editView);
+        mCostEditView = getView().findViewById(R.id.cost_editView);
+        mDateEditView = getView().findViewById(R.id.date_editView);
+        mCategoryEditView = getView().findViewById(R.id.category_editView);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         mDateEditView.setText(sdf.format(new Date()));
+
+        mReceiptViewModel = ViewModelProviders.of(this).get(ReceiptViewModel.class);
 
         mDateEditView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +66,7 @@ public class NewReceiptActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
 
-                DatePickerDialog dialog = new DatePickerDialog(NewReceiptActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                DatePickerDialog dialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -66,11 +82,18 @@ public class NewReceiptActivity extends AppCompatActivity {
             }
         };
 
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date = day + "/" + month + "/" + year;
+                mDateEditView.setText(date);
+            }
+        };
 
-        final Button button = findViewById(R.id.button_save);
+        final Button button = getView().findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent replyIntent = new Intent();
                 String details = mDetailsEditView.getText().toString();
                 String costString = mCostEditView.getText().toString();
                 int costInt = Integer.parseInt(costString);
@@ -78,21 +101,23 @@ public class NewReceiptActivity extends AppCompatActivity {
                 String category = mCategoryEditView.getText().toString();
 
                 if(details.length() == 0 || costString.length() == 0 || date.length() == 0) {
-                    Toast.makeText(NewReceiptActivity.this, "Please make sure all details are correct", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please make sure all details are correct", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                Bundle bundle = new Bundle();
-                bundle.putString("DETAILS_KEY", details);
-                bundle.putInt("COST_KEY", costInt);
-                bundle.putString("DATE_KEY", date);
-                bundle.putString("CATEGORY_KEY", category);
+                Receipt receipt = new Receipt();
+                receipt.setDetails(details);
+                receipt.setCost(costInt);
+                receipt.setDate(date);
+                receipt.setCategory(category);
+                mReceiptViewModel.insert(receipt);
+                ReceiptFragment fragment = new ReceiptFragment();
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
+                        .commit();
 
-                replyIntent.putExtras(bundle);
-                setResult(RESULT_OK, replyIntent);
-
-                finish();
             }
         });
+
     }
+
 }
