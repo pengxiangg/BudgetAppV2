@@ -1,6 +1,11 @@
 package app.company.bulba.com.budgetappv2;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,14 +26,16 @@ import android.widget.Toast;
 
 import org.w3c.dom.Entity;
 
+import java.io.StringBufferInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.MonthBudget;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 
-public class NewReceiptFragment extends Fragment {
+public class NewReceiptFragment extends Fragment implements LifecycleOwner {
 
     public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
 
@@ -39,6 +46,14 @@ public class NewReceiptFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private ReceiptViewModel mReceiptViewModel;
     private MonthBudgetViewModel mMonthBudgetViewModel;
+    private ReceiptRepository receiptRepository;
+
+    private List<String> mAllMhCategories;
+    private List<String> mAllmhDate;
+    private int mMhId;
+    private boolean duplicate;
+    private int testint;
+
 
     @Nullable
     @Override
@@ -95,6 +110,20 @@ public class NewReceiptFragment extends Fragment {
             }
         };
 
+        mMonthBudgetViewModel.getAllMhDate().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                mAllmhDate = strings;
+            }
+        });
+
+        mMonthBudgetViewModel.getAllMhCategories().observe(getActivity(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                mAllMhCategories = strings;
+            }
+        });
+
         final Button button = getView().findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -103,6 +132,7 @@ public class NewReceiptFragment extends Fragment {
                 int costInt = Integer.parseInt(costString);
                 String date = mDateEditView.getText().toString();
                 String category = mCategoryEditView.getText().toString();
+                duplicate = false;
 
                 if(details.length() == 0 || costString.length() == 0 || date.length() == 0) {
                     Toast.makeText(getContext(), "Please make sure all details are correct", Toast.LENGTH_LONG).show();
@@ -118,11 +148,27 @@ public class NewReceiptFragment extends Fragment {
 
                 String[] parts = date.split("/", 2);
                 String monthDate = parts[1];
+
                 MonthBudget monthBudget = new MonthBudget();
                 monthBudget.setMhDate(monthDate);
                 monthBudget.setMhCategory(category);
-                mMonthBudgetViewModel.insert(monthBudget);
 
+
+                for(int i = 0; i < mAllMhCategories.size(); ++i) {
+                    if(category.equals(mAllMhCategories.get(i))) {
+                        duplicate = true;
+                    }
+                }
+                if(!duplicate) {
+                    for (int i = 0; i < mAllmhDate.size(); ++i) {
+                        if(monthDate.equals(mAllmhDate.get(i))) {
+                            duplicate = true;
+                        }
+                    }
+                }
+                if(!duplicate) {
+                    mMonthBudgetViewModel.insert(monthBudget);
+                }
 
                 ReceiptFragment fragment = new ReceiptFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
@@ -132,5 +178,17 @@ public class NewReceiptFragment extends Fragment {
         });
 
     }
+
+    int getMhId(String category, String monthDate) {
+        mMonthBudgetViewModel.getMhId(category, monthDate).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                testint = integer;
+            }
+        });
+        return testint;
+    }
+
+
 
 }

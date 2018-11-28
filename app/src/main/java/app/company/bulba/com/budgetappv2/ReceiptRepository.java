@@ -47,6 +47,8 @@ public class ReceiptRepository {
         return mReceiptDao.getTotalCost();
     }
 
+    LiveData<Integer> getSumByCatAndDate(String category, String date) {return mReceiptDao.getSumByCatAndDate(category, date); }
+
     public void insert(Receipt receipt) {
         new insertAsyncTask(mReceiptDao).execute(receipt);
     }
@@ -55,7 +57,15 @@ public class ReceiptRepository {
 
     public void insert (MonthBudget monthBudget) { new insertMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget); }
 
+    void update (MonthBudget monthBudget) { new updateMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget); }
+
     LiveData<List<String>> getAllCategories() { return mBudgetDao.getAllCategories(); }
+
+    LiveData<List<String>> getAllMhCategories() { return mMonthBudgetDao.getAllMhCategories(); }
+
+    LiveData<List<String>> getAllMhDate() {return mMonthBudgetDao.getAllMhDate();}
+
+    LiveData<Integer> getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
@@ -93,6 +103,18 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(MonthBudget... monthBudgets) {
             mMonthBudgetAsyncTaskDao.insert(monthBudgets[0]);
+            return null;
+        }
+    }
+
+    private static class updateMonthBudgetAsyncTask extends AsyncTask<MonthBudget, Void, Void> {
+        private MonthBudgetDao mMonthBudgetAsyncTaskDao;
+
+        updateMonthBudgetAsyncTask(MonthBudgetDao dao) {mMonthBudgetAsyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground (MonthBudget... monthBudgets) {
+            mMonthBudgetAsyncTaskDao.updateMonthBudget(monthBudgets[0]);
             return null;
         }
     }
