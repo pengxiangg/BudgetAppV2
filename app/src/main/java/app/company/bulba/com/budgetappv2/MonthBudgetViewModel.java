@@ -32,7 +32,7 @@ public class MonthBudgetViewModel extends AndroidViewModel {
 
     LiveData<List<String>> getAllMhDate() { return mRepository.getAllMhDate(); }
 
-    LiveData<Integer> getMhId(String category, String date) { return mRepository.getMhId(category, date); }
+    int getMhId(String category, String date) { return mRepository.getMhId(category, date); }
 
     public void update (MonthBudget monthBudget) {mRepository.update(monthBudget);}
 }

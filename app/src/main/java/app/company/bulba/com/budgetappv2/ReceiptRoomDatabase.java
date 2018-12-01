@@ -32,7 +32,7 @@ public abstract class ReceiptRoomDatabase extends RoomDatabase{
         if(INSTANCE == null) {
             synchronized (ReceiptRoomDatabase.class) {
                 if(INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReceiptRoomDatabase.class, "receipt_database").addCallback(sRoomDatabaseCallback).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReceiptRoomDatabase.class, "receipt_database").addCallback(sRoomDatabaseCallback).allowMainThreadQueries().build();
                 }
             }
         }

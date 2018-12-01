@@ -30,5 +30,5 @@ public class ReceiptViewModel extends AndroidViewModel {
 
     LiveData<Integer> getTotalCost() { return mRepository.getTotalCost(); }
 
-    LiveData<Integer> getSumByCatAndDate(String category, String date) { return mRepository.getSumByCatAndDate(category, date); }
+    int getSumByCatAndDate(String category, String date) { return mRepository.getSumByCatAndDate(category, date); }
 }

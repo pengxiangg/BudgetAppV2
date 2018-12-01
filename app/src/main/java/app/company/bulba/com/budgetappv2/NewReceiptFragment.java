@@ -35,7 +35,7 @@ import java.util.List;
 import app.company.bulba.com.budgetappv2.data.MonthBudget;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 
-public class NewReceiptFragment extends Fragment implements LifecycleOwner {
+public class NewReceiptFragment extends Fragment {
 
     public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
 
@@ -52,7 +52,7 @@ public class NewReceiptFragment extends Fragment implements LifecycleOwner {
     private List<String> mAllmhDate;
     private int mMhId;
     private boolean duplicate;
-    private int testint;
+    private int totalSum;
 
 
     @Nullable
@@ -156,18 +156,25 @@ public class NewReceiptFragment extends Fragment implements LifecycleOwner {
 
                 for(int i = 0; i < mAllMhCategories.size(); ++i) {
                     if(category.equals(mAllMhCategories.get(i))) {
-                        duplicate = true;
-                    }
-                }
-                if(!duplicate) {
-                    for (int i = 0; i < mAllmhDate.size(); ++i) {
-                        if(monthDate.equals(mAllmhDate.get(i))) {
-                            duplicate = true;
+                        for (int j = 0; j < mAllmhDate.size(); ++j) {
+                            if(monthDate.equals(mAllmhDate.get(i))) {
+                                duplicate = true;
+                            }
                         }
                     }
                 }
+
+
                 if(!duplicate) {
+                    totalSum = mReceiptViewModel.getSumByCatAndDate(category, "%" + monthDate);
+                    monthBudget.setMhSpent(totalSum);
                     mMonthBudgetViewModel.insert(monthBudget);
+                } else {
+                    int mhID = mMonthBudgetViewModel.getMhId(category, monthDate);
+                    totalSum = mReceiptViewModel.getSumByCatAndDate(category, "%" + monthDate);
+                    monthBudget.setMhId(mhID);
+                    monthBudget.setMhSpent(totalSum);
+                    mMonthBudgetViewModel.update(monthBudget);
                 }
 
                 ReceiptFragment fragment = new ReceiptFragment();
@@ -178,17 +185,6 @@ public class NewReceiptFragment extends Fragment implements LifecycleOwner {
         });
 
     }
-
-    int getMhId(String category, String monthDate) {
-        mMonthBudgetViewModel.getMhId(category, monthDate).observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer integer) {
-                testint = integer;
-            }
-        });
-        return testint;
-    }
-
 
 
 }

@@ -47,7 +47,7 @@ public class ReceiptRepository {
         return mReceiptDao.getTotalCost();
     }
 
-    LiveData<Integer> getSumByCatAndDate(String category, String date) {return mReceiptDao.getSumByCatAndDate(category, date); }
+    int getSumByCatAndDate(String category, String date) {return mReceiptDao.getSumByCatAndDate(category, date); }
 
     public void insert(Receipt receipt) {
         new insertAsyncTask(mReceiptDao).execute(receipt);
@@ -65,7 +65,7 @@ public class ReceiptRepository {
 
     LiveData<List<String>> getAllMhDate() {return mMonthBudgetDao.getAllMhDate();}
 
-    LiveData<Integer> getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
+    int getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 

@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
@@ -67,8 +69,6 @@ public class AddBudgetFragment extends Fragment {
                    return;
                }
 
-               Log.e("TAG CHECK", "List: " + mAllCategories);
-
                for( int i = 0; i < mAllCategories.size(); ++i) {
                     if(category.equals(mAllCategories.get(i))) {
                         duplicate = true;
@@ -81,6 +81,7 @@ public class AddBudgetFragment extends Fragment {
                    budget.setBudgetCategory(category);
                    budget.setLimit(limitInt);
                    shareModel.insert(budget);
+                   
                    BudgetFragment fragment = new BudgetFragment();
                    getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
                            .commit();

@@ -33,5 +33,5 @@ public interface MonthBudgetDao {
     LiveData<List<String>> getAllMhDate();
 
     @Query("SELECT mhId FROM monthBudget_table WHERE mhCategory = :mhCategory AND mhDate = :mhDate")
-    LiveData<Integer> getMhId(String mhCategory, String mhDate);
+    int getMhId(String mhCategory, String mhDate);
 }
