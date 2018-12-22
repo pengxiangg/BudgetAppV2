@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 
 import static android.app.Activity.RESULT_OK;
@@ -28,7 +32,9 @@ import static android.app.Activity.RESULT_OK;
 public class ReceiptFragment extends Fragment {
 
     private ReceiptViewModel mReceiptViewModel;
+    private MonthBudgetViewModel mMonthBudgetViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    boolean catAndDateDup;
 
     @Nullable
     @Override
@@ -44,13 +50,17 @@ public class ReceiptFragment extends Fragment {
         final ReceiptListAdapter adapter = new ReceiptListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mReceiptViewModel = ViewModelProviders.of(this).get(ReceiptViewModel.class);
+
+        mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
+
 
         mReceiptViewModel.getAllReceipts().observe(this, new Observer<List<Receipt>>() {
             @Override
             public void onChanged(@Nullable final List<Receipt> receipts) {
-                // Update the cached copy of the words in the adapter.
                 adapter.setReceipts(receipts);
+
             }
         });
 
@@ -77,5 +87,9 @@ public class ReceiptFragment extends Fragment {
             }
         });
     }
+
+
+
+
 
 }

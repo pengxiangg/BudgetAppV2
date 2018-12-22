@@ -17,14 +17,18 @@ public class MonthBudgetViewModel extends AndroidViewModel {
 
     private ReceiptRepository mRepository;
     private LiveData<List<MonthBudget>> mAllMonthBudgets;
+    private List<MonthBudget> mAllMonthBudgetsNon;
 
     public MonthBudgetViewModel(@NonNull Application application) {
         super(application);
         mRepository = new ReceiptRepository(application);
         mAllMonthBudgets = mRepository.getAllMonthBudgets();
+        mAllMonthBudgetsNon = mRepository.getAllMonthBudgetsNon();
     }
 
     LiveData<List<MonthBudget>> getAllMonthBudgets() { return mAllMonthBudgets; }
+
+    List<MonthBudget> getAllMonthBudgetsNon() { return mAllMonthBudgetsNon; }
 
     public void insert (MonthBudget monthBudget) {mRepository.insert(monthBudget);}
 
@@ -35,4 +39,16 @@ public class MonthBudgetViewModel extends AndroidViewModel {
     int getMhId(String category, String date) { return mRepository.getMhId(category, date); }
 
     public void update (MonthBudget monthBudget) {mRepository.update(monthBudget);}
+
+    void updateMhSpent (int spent, int id) {mRepository.updateMhSpent(spent, id);}
+
+    int getMhLimit (int mhId) {return mRepository.getMhLimit(mhId);}
+
+    void updateMhRemainder (int remainder, int id) {mRepository.updateMhRemainder(remainder, id);}
+
+    void updateMhLimit (int limit, int id) {mRepository.updateMhLimit(limit, id);}
+
+    int getMhSpent (int mhId) {return mRepository.getMhSpent(mhId);}
+
+    List<String> getCatAndMonthDateBudgetM() {return mRepository.getCatAndMonthDateBudgetM();}
 }

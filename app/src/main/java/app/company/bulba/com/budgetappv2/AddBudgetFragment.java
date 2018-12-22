@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
+import app.company.bulba.com.budgetappv2.data.MonthBudget;
 
 /**
  * Created by Zachary on 23/11/2018.
@@ -29,10 +30,17 @@ public class AddBudgetFragment extends Fragment {
 
     private EditText categoryET;
     private EditText limitET;
-    private BudgetViewModel shareModel;
+    private BudgetViewModel budgetModel;
     private List<String> mAllCategories;
     private boolean duplicate;
     String category;
+    String dateMonth;
+    private MonthBudgetViewModel mbModel;
+    private List<String> mbAllCats;
+    private List<String> mbAllDates;
+    private ReceiptViewModel receiptViewModel;
+    private List<MonthBudget> mAllMonthBudgets;
+    private int mbInt = 0;
 
     @Nullable
     @Override
@@ -46,14 +54,25 @@ public class AddBudgetFragment extends Fragment {
 
         categoryET = getView().findViewById(R.id.category_input_edit_text);
         limitET = getView().findViewById(R.id.limit_edit_text);
-        shareModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
+        budgetModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
 
-        shareModel.getAllCategories().observe(this, new Observer<List<String>>() {
+        budgetModel.getAllCategories().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> strings) {
                 mAllCategories = strings;
             }
         });
+
+        mbModel = ViewModelProviders.of(getActivity()).get(MonthBudgetViewModel.class);
+        mbModel.getAllMonthBudgets().observe(this, new Observer<List<MonthBudget>>() {
+            @Override
+            public void onChanged(@Nullable List<MonthBudget> monthBudgets) {
+                mAllMonthBudgets = monthBudgets;
+            }
+        });
+        receiptViewModel = ViewModelProviders.of(getActivity()).get(ReceiptViewModel.class);
+
+        receiptViewModel = ViewModelProviders.of(getActivity()).get(ReceiptViewModel.class);
 
         Button button = getView().findViewById(R.id.button_budget_submit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +99,30 @@ public class AddBudgetFragment extends Fragment {
                    Budget budget = new Budget();
                    budget.setBudgetCategory(category);
                    budget.setLimit(limitInt);
-                   shareModel.insert(budget);
-                   
+                   budgetModel.insert(budget);
+
+                   Calendar calendar = Calendar.getInstance();
+                   SimpleDateFormat mdformat = new SimpleDateFormat("MM/yyyy");
+                   dateMonth = mdformat.format(calendar.getTime());
+                   Log.e("TAG: ", "date: " + dateMonth);
+
+                   if(!checkMonthBudgetDuplicate(mAllMonthBudgets)) {
+                       MonthBudget monthBudget = new MonthBudget();
+                       monthBudget.setMhCategory(category);
+                       monthBudget.setMhDate(dateMonth);
+                       monthBudget.setMhlimit(limitInt);
+                       mbModel.insert(monthBudget);
+                   } else {
+                       if (mbInt > 0) {
+                           mbModel.updateMhLimit(limitInt, mbInt);
+                           int spent = mbModel.getMhSpent(mbInt);
+                           if(spent > 0) {
+                               int remainder = limitInt - spent;
+                               mbModel.updateMhRemainder(remainder, mbInt);
+                           }
+                       }
+                   }
+
                    BudgetFragment fragment = new BudgetFragment();
                    getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
                            .commit();
@@ -90,6 +131,28 @@ public class AddBudgetFragment extends Fragment {
                }
             }
         });
+    }
+
+
+    private boolean checkMonthBudgetDuplicate(List<MonthBudget> monthBudgetList) {
+        boolean duplicate = false;
+        if(monthBudgetList.size() == 0) {
+            duplicate = false;
+        }
+        else {
+            for(int i = 0; i < monthBudgetList.size(); ++i) {
+                MonthBudget monthBudget = monthBudgetList.get(i);
+                String mhCat = monthBudget.getMhCategory();
+                String mhDate = monthBudget.getMhDate();
+                if(mhCat.equals(category) && mhDate.equals(dateMonth)) {
+                    if(monthBudget.getMhlimit() == 0) {
+                        mbInt = monthBudget.getMhId();
+                    }
+                    duplicate = true;
+                } else duplicate = false;
+            }
+        }
+        return duplicate;
     }
 
 }

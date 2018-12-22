@@ -3,6 +3,7 @@ package app.company.bulba.com.budgetappv2;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ReceiptRepository {
     private LiveData<List<Receipt>> mAllReceipts;
     private LiveData<List<Budget>> mAllBudgets;
     private LiveData<List<MonthBudget>> mAllMonthBudgets;
+    private List<MonthBudget> mAllMonthBudgetsNon;
 
     ReceiptRepository(Application application) {
         ReceiptRoomDatabase db = ReceiptRoomDatabase.getDatabase(application);
@@ -33,6 +35,7 @@ public class ReceiptRepository {
         mAllReceipts = mReceiptDao.getAllReceipts();
         mAllBudgets = mBudgetDao.getAllBudgets();
         mAllMonthBudgets = mMonthBudgetDao.getAllMonthBudgets();
+        mAllMonthBudgetsNon  = mMonthBudgetDao.getAllMonthBudgetsNon();
     }
 
     LiveData<List<Receipt>> getAllReceipts() {
@@ -42,6 +45,8 @@ public class ReceiptRepository {
     LiveData<List<Budget>> getAllBudgets() { return mAllBudgets; }
 
     LiveData<List<MonthBudget>> getAllMonthBudgets() { return mAllMonthBudgets; }
+
+    List<MonthBudget> getAllMonthBudgetsNon() { return mAllMonthBudgetsNon; }
 
     LiveData<Integer> getTotalCost() {
         return mReceiptDao.getTotalCost();
@@ -59,6 +64,8 @@ public class ReceiptRepository {
 
     void update (MonthBudget monthBudget) { new updateMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget); }
 
+    void updateMhSpent (int spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
+
     LiveData<List<String>> getAllCategories() { return mBudgetDao.getAllCategories(); }
 
     LiveData<List<String>> getAllMhCategories() { return mMonthBudgetDao.getAllMhCategories(); }
@@ -66,6 +73,18 @@ public class ReceiptRepository {
     LiveData<List<String>> getAllMhDate() {return mMonthBudgetDao.getAllMhDate();}
 
     int getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
+
+    int getMhLimit(int mhID) {return mMonthBudgetDao.getMhLimit(mhID);}
+
+    void updateMhRemainder (int remainder, int id) {mMonthBudgetDao.updateMhRemainder(remainder, id);}
+
+    void updateMhLimit (int limit, int id) {mMonthBudgetDao.updateMhLimit(limit, id);}
+
+    int getMhSpent(int mhID) {return mMonthBudgetDao.getMhSpent(mhID);}
+
+    List<String> getDistinctCatAndMonthDateReceipt() {return mReceiptDao.getDistinctCatAndMonthDateReceipt(); }
+
+    List<String> getCatAndMonthDateBudgetM() {return mMonthBudgetDao.getCatAndMonthDateBudgetM();}
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
@@ -103,6 +122,7 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(MonthBudget... monthBudgets) {
             mMonthBudgetAsyncTaskDao.insert(monthBudgets[0]);
+            Log.e("ENTER:", "SUCCESSFUL");
             return null;
         }
     }
@@ -118,4 +138,5 @@ public class ReceiptRepository {
             return null;
         }
     }
+
 }

@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import app.company.bulba.com.budgetappv2.data.Budget;
 import app.company.bulba.com.budgetappv2.data.MonthBudget;
 import app.company.bulba.com.budgetappv2.data.Receipt;
 
@@ -46,13 +47,10 @@ public class NewReceiptFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private ReceiptViewModel mReceiptViewModel;
     private MonthBudgetViewModel mMonthBudgetViewModel;
-    private ReceiptRepository receiptRepository;
-
-    private List<String> mAllMhCategories;
-    private List<String> mAllmhDate;
-    private int mMhId;
+    private List<String> mAllMonthCat;
+    private List<String> mAllMonthDate;
     private boolean duplicate;
-    private int totalSum;
+
 
 
     @Nullable
@@ -76,6 +74,22 @@ public class NewReceiptFragment extends Fragment {
         mReceiptViewModel = ViewModelProviders.of(this).get(ReceiptViewModel.class);
 
         mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
+
+        mMonthBudgetViewModel.getAllMhCategories().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                mAllMonthCat = strings;
+            }
+        });
+
+        mMonthBudgetViewModel.getAllMhDate().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                mAllMonthDate = strings;
+            }
+        });
+
+
 
         mDateEditView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,19 +124,6 @@ public class NewReceiptFragment extends Fragment {
             }
         };
 
-        mMonthBudgetViewModel.getAllMhDate().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                mAllmhDate = strings;
-            }
-        });
-
-        mMonthBudgetViewModel.getAllMhCategories().observe(getActivity(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                mAllMhCategories = strings;
-            }
-        });
 
         final Button button = getView().findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +133,6 @@ public class NewReceiptFragment extends Fragment {
                 int costInt = Integer.parseInt(costString);
                 String date = mDateEditView.getText().toString();
                 String category = mCategoryEditView.getText().toString();
-                duplicate = false;
 
                 if(details.length() == 0 || costString.length() == 0 || date.length() == 0) {
                     Toast.makeText(getContext(), "Please make sure all details are correct", Toast.LENGTH_LONG).show();
@@ -146,36 +146,40 @@ public class NewReceiptFragment extends Fragment {
                 receipt.setCategory(category);
                 mReceiptViewModel.insert(receipt);
 
-                String[] parts = date.split("/", 2);
+                String parts[] = date.split("/", 2);
                 String monthDate = parts[1];
 
-                MonthBudget monthBudget = new MonthBudget();
-                monthBudget.setMhDate(monthDate);
-                monthBudget.setMhCategory(category);
+                duplicate = false;
 
-
-                for(int i = 0; i < mAllMhCategories.size(); ++i) {
-                    if(category.equals(mAllMhCategories.get(i))) {
-                        for (int j = 0; j < mAllmhDate.size(); ++j) {
-                            if(monthDate.equals(mAllmhDate.get(i))) {
+                for(int i = 0; i < mAllMonthCat.size(); ++i) {
+                    if(category.equals(mAllMonthCat.get(i))) {
+                        for(int j = 0; j < mAllMonthDate.size(); ++j) {
+                            if(monthDate.equals(mAllMonthDate.get(j))) {
                                 duplicate = true;
                             }
                         }
                     }
                 }
 
-
-                if(!duplicate) {
-                    totalSum = mReceiptViewModel.getSumByCatAndDate(category, "%" + monthDate);
-                    monthBudget.setMhSpent(totalSum);
-                    mMonthBudgetViewModel.insert(monthBudget);
+                if(duplicate) {
+                    int mbID = mMonthBudgetViewModel.getMhId(category, monthDate);
+                    int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
+                    mbSpent = mbSpent + costInt;
+                    mMonthBudgetViewModel.updateMhSpent(mbSpent, mbID);
+                    int mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
+                    if(mbLimit!=0) {
+                        int mbRemainder = mbLimit - mbSpent;
+                        mMonthBudgetViewModel.updateMhRemainder(mbRemainder, mbID);
+                    }
                 } else {
-                    int mhID = mMonthBudgetViewModel.getMhId(category, monthDate);
-                    totalSum = mReceiptViewModel.getSumByCatAndDate(category, "%" + monthDate);
-                    monthBudget.setMhId(mhID);
-                    monthBudget.setMhSpent(totalSum);
-                    mMonthBudgetViewModel.update(monthBudget);
+                    MonthBudget monthBudget = new MonthBudget();
+                    monthBudget.setMhDate(monthDate);
+                    monthBudget.setMhCategory(category);
+                    monthBudget.setMhSpent(costInt);
+                    mMonthBudgetViewModel.insert(monthBudget);
                 }
+
+
 
                 ReceiptFragment fragment = new ReceiptFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)

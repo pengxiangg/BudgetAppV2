@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import java.io.StringBufferInputStream;
 import java.util.List;
 
 /**
@@ -29,4 +30,6 @@ public interface ReceiptDao {
     @Query("SELECT sum(cost) FROM receipt_table WHERE category = :category AND date LIKE :date")
     int getSumByCatAndDate(String category, String date);
 
+    @Query("SELECT DISTINCT (category || ', ' || SUBSTR(date, INSTR(date, '/') +1, LENGTH(date))) FROM receipt_table")
+    List<String> getDistinctCatAndMonthDateReceipt();
 }

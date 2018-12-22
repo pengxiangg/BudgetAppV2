@@ -7,13 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
+import app.company.bulba.com.budgetappv2.data.Budget;
 import app.company.bulba.com.budgetappv2.data.MonthBudget;
+import app.company.bulba.com.budgetappv2.data.Receipt;
 
 /**
  * Created by Zachary on 26/11/2018.
@@ -23,6 +26,8 @@ public class MonthBudgetFragment extends Fragment {
 
     private MonthBudgetViewModel mMonthBudgetViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    private ReceiptViewModel mReceiptViewModel;
+    private BudgetViewModel mBudgetViewModel;
 
     @Nullable
     @Override
@@ -47,6 +52,7 @@ public class MonthBudgetFragment extends Fragment {
                 adapter.setMonthBudgets(monthBudgets);
             }
         });
+    }
 
         /* every time new item created in receipt, add into this table
             if category and date already exists, update total spent
@@ -55,5 +61,6 @@ public class MonthBudgetFragment extends Fragment {
             search budget table for limit
          */
 
-    }
+
+
 }
