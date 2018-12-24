@@ -56,12 +56,7 @@ public class AddBudgetFragment extends Fragment {
         limitET = getView().findViewById(R.id.limit_edit_text);
         budgetModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
 
-        budgetModel.getAllCategories().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                mAllCategories = strings;
-            }
-        });
+        mAllCategories = budgetModel.getAllCategories();
 
         mbModel = ViewModelProviders.of(getActivity()).get(MonthBudgetViewModel.class);
         mbModel.getAllMonthBudgets().observe(this, new Observer<List<MonthBudget>>() {

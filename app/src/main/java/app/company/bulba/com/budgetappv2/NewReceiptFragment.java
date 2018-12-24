@@ -47,6 +47,7 @@ public class NewReceiptFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private ReceiptViewModel mReceiptViewModel;
     private MonthBudgetViewModel mMonthBudgetViewModel;
+    private BudgetViewModel mBudgetViewModel;
     private List<String> mAllMonthCat;
     private List<String> mAllMonthDate;
     private boolean duplicate;
@@ -75,19 +76,11 @@ public class NewReceiptFragment extends Fragment {
 
         mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
 
-        mMonthBudgetViewModel.getAllMhCategories().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                mAllMonthCat = strings;
-            }
-        });
+        mBudgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
 
-        mMonthBudgetViewModel.getAllMhDate().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                mAllMonthDate = strings;
-            }
-        });
+        mAllMonthCat = mMonthBudgetViewModel.getAllMhCategories();
+
+        mAllMonthDate = mMonthBudgetViewModel.getAllMhDate();
 
 
 
@@ -176,6 +169,12 @@ public class NewReceiptFragment extends Fragment {
                     monthBudget.setMhDate(monthDate);
                     monthBudget.setMhCategory(category);
                     monthBudget.setMhSpent(costInt);
+                    int limit = returnLimitBudget(category);
+                    if(limit != 0) {
+                        monthBudget.setMhlimit(limit);
+                        int remainder = limit - costInt;
+                        monthBudget.setMhRemainder(remainder);
+                    }
                     mMonthBudgetViewModel.insert(monthBudget);
                 }
 
@@ -188,6 +187,15 @@ public class NewReceiptFragment extends Fragment {
             }
         });
 
+    }
+
+    private int returnLimitBudget(String categoryBudget) {
+        int limit = mBudgetViewModel.getLimitCatBudget(categoryBudget);
+        if(limit != 0) {
+            return limit;
+        } else {
+            return 0;
+        }
     }
 
 

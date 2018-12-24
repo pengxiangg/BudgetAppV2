@@ -27,10 +27,10 @@ public interface MonthBudgetDao {
     LiveData<List<MonthBudget>> getAllMonthBudgets();
 
     @Query("SELECT mhCategory FROM monthBudget_table")
-    LiveData<List<String>> getAllMhCategories();
+    List<String> getAllMhCategories();
 
     @Query("SELECT mhDate FROM monthBudget_table")
-    LiveData<List<String>> getAllMhDate();
+    List<String> getAllMhDate();
 
     @Query("SELECT mhId FROM monthBudget_table WHERE mhCategory = :mhCategory AND mhDate = :mhDate")
     int getMhId(String mhCategory, String mhDate);

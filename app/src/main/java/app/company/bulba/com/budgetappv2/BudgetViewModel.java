@@ -30,6 +30,10 @@ public class BudgetViewModel extends AndroidViewModel {
 
     public void insert(Budget budget) {mRepository.insert(budget);}
 
-    LiveData<List<String>> getAllCategories() { return mRepository.getAllCategories(); }
+    List<String> getAllCategories() { return mRepository.getAllCategories(); }
+
+    LiveData<List<Integer>> getAllLimitBudget() {return mRepository.getAllLimitBudget();}
+
+    int getLimitCatBudget(String budgetCategory) {return mRepository.getLimitCatBudget(budgetCategory);}
 
 }

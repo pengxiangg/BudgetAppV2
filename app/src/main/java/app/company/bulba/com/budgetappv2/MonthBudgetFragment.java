@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
@@ -26,8 +28,11 @@ public class MonthBudgetFragment extends Fragment {
 
     private MonthBudgetViewModel mMonthBudgetViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
-    private ReceiptViewModel mReceiptViewModel;
     private BudgetViewModel mBudgetViewModel;
+    private List<String> mAllCatBudget;
+    private List<String> mAllCatMb;
+    private List<String> mAllDateMb;
+    private List<Integer> mAllLimitBudget;
 
     @Nullable
     @Override
@@ -36,7 +41,7 @@ public class MonthBudgetFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = getView().findViewById(R.id.month_budget_recyclerview);
@@ -46,20 +51,65 @@ public class MonthBudgetFragment extends Fragment {
 
         mMonthBudgetViewModel = ViewModelProviders.of(getActivity()).get(MonthBudgetViewModel.class);
 
+        mBudgetViewModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
+
         mMonthBudgetViewModel.getAllMonthBudgets().observe(this, new Observer<List<MonthBudget>>() {
             @Override
             public void onChanged(@Nullable List<MonthBudget> monthBudgets) {
                 adapter.setMonthBudgets(monthBudgets);
             }
         });
+
+        mAllCatMb = mMonthBudgetViewModel.getAllMhCategories();
+
+        mAllDateMb = mMonthBudgetViewModel.getAllMhDate();
+
+
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("MM/yyyy");
+        String dateMonth = mdformat.format(calendar.getTime());
+        Log.e("Tag: ", dateMonth + "DATE");
+
+       mAllCatBudget = mBudgetViewModel.getAllCategories();
+
+        Log.e("Tag: ", mAllCatBudget + "LOL");
+        if(mAllCatBudget!=null) {
+            for (int i = 0; i < mAllCatBudget.size(); ++i) {
+                boolean duplicate = false;
+                String category = mAllCatBudget.get(i);
+                duplicate = checkDuplicate(category, dateMonth);
+                if(duplicate = false) {
+                    MonthBudget monthBudget = new MonthBudget();
+                    monthBudget.setMhCategory(mAllCatBudget.get(i));
+                    monthBudget.setMhDate(dateMonth);
+                    int limit = mBudgetViewModel.getLimitCatBudget(mAllCatBudget.get(i));
+                    monthBudget.setMhlimit(limit);
+                    monthBudget.setMhRemainder(limit);
+                    mMonthBudgetViewModel.insert(monthBudget);
+                }
+            }
+        }
     }
 
-        /* every time new item created in receipt, add into this table
-            if category and date already exists, update total spent
-            else create new category and date with total spent
 
-            search budget table for limit
-         */
+
+    private boolean checkDuplicate(String category, String dateMonth) {
+        boolean dup = false;
+        if(mAllCatMb!=null) {
+            for (int i = 0; i < mAllCatMb.size(); ++i) {
+                for (int j = 0; j < mAllDateMb.size(); ++j) {
+                    if (mAllCatMb.get(i).equals(category)) {
+                        if (mAllDateMb.get(j).equals(dateMonth)) {
+                            return dup = true;
+                        }
+                    }
+                }
+            }
+        }
+        return dup;
+    }
+
 
 
 

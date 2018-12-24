@@ -66,11 +66,11 @@ public class ReceiptRepository {
 
     void updateMhSpent (int spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
 
-    LiveData<List<String>> getAllCategories() { return mBudgetDao.getAllCategories(); }
+    List<String> getAllCategories() { return mBudgetDao.getAllCategories(); }
 
-    LiveData<List<String>> getAllMhCategories() { return mMonthBudgetDao.getAllMhCategories(); }
+    List<String> getAllMhCategories() { return mMonthBudgetDao.getAllMhCategories(); }
 
-    LiveData<List<String>> getAllMhDate() {return mMonthBudgetDao.getAllMhDate();}
+    List<String> getAllMhDate() {return mMonthBudgetDao.getAllMhDate();}
 
     int getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
 
@@ -85,6 +85,10 @@ public class ReceiptRepository {
     List<String> getDistinctCatAndMonthDateReceipt() {return mReceiptDao.getDistinctCatAndMonthDateReceipt(); }
 
     List<String> getCatAndMonthDateBudgetM() {return mMonthBudgetDao.getCatAndMonthDateBudgetM();}
+
+    LiveData<List<Integer>> getAllLimitBudget() {return mBudgetDao.getAllLimitBudget();}
+
+    int getLimitCatBudget(String budgetCategory) {return mBudgetDao.getLimitCatBudget(budgetCategory);}
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 

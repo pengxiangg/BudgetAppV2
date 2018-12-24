@@ -32,9 +32,9 @@ public class MonthBudgetViewModel extends AndroidViewModel {
 
     public void insert (MonthBudget monthBudget) {mRepository.insert(monthBudget);}
 
-    LiveData<List<String>> getAllMhCategories() {return mRepository.getAllMhCategories(); }
+    List<String> getAllMhCategories() {return mRepository.getAllMhCategories(); }
 
-    LiveData<List<String>> getAllMhDate() { return mRepository.getAllMhDate(); }
+    List<String> getAllMhDate() { return mRepository.getAllMhDate(); }
 
     int getMhId(String category, String date) { return mRepository.getMhId(category, date); }
 

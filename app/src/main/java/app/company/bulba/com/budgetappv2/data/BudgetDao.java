@@ -24,5 +24,11 @@ public interface BudgetDao {
     LiveData<List<Budget>> getAllBudgets();
 
     @Query("SELECT budgetCategory FROM budget_table")
-    LiveData<List<String>> getAllCategories();
+    List<String> getAllCategories();
+
+    @Query("SELECT `limit` FROM budget_table")
+    LiveData<List<Integer>> getAllLimitBudget();
+
+    @Query("SELECT `limit` FROM budget_table WHERE budgetCategory = :budgetCategory")
+    int getLimitCatBudget(String budgetCategory);
 }
