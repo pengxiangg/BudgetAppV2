@@ -34,4 +34,6 @@ public class ReceiptViewModel extends AndroidViewModel {
 
     List<String> getDistinctCatAndMonthDateReceipt() {return mRepository.getDistinctCatAndMonthDateReceipt(); }
 
+    public void deleteReceipt(Receipt receipt) {mRepository.deleteReceipt(receipt);}
+
 }

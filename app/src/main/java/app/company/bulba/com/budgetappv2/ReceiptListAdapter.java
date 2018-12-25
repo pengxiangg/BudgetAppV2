@@ -70,4 +70,8 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             return mReceipts.size();
         else return 0;
     }
+
+    public Receipt getReceiptAtPosition (int position) {
+        return mReceipts.get(position);
+    }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +87,43 @@ public class ReceiptFragment extends Fragment {
 
             }
         });
+
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Receipt myReceipt = adapter.getReceiptAtPosition(position);
+                        String category = myReceipt.getCategory();
+                        String date = myReceipt.getDate();
+                        String parts[] = date.split("/", 2);
+                        String monthDate = parts[1];
+                        int cost = myReceipt.getCost();
+
+                        int mbID = mMonthBudgetViewModel.getMhId(category, monthDate);
+                        int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
+                        int newMbSpent = mbSpent - cost;
+                        mMonthBudgetViewModel.updateMhSpent(newMbSpent, mbID);
+
+                        int mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
+                        if(mbLimit!=0) {
+                            int mbRemainder = mbLimit - newMbSpent;
+                            mMonthBudgetViewModel.updateMhRemainder(mbRemainder, mbID);
+                        }
+
+
+                        mReceiptViewModel.deleteReceipt(myReceipt);
+
+                    }
+                });
+
+        helper.attachToRecyclerView(recyclerView);
     }
 
 

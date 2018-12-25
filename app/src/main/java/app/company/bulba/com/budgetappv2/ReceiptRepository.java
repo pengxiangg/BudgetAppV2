@@ -64,6 +64,8 @@ public class ReceiptRepository {
 
     void update (MonthBudget monthBudget) { new updateMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget); }
 
+    public void deleteReceipt(Receipt receipt) { new deleteReceiptAsyncTask(mReceiptDao).execute(receipt);}
+
     void updateMhSpent (int spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
 
     List<String> getAllCategories() { return mBudgetDao.getAllCategories(); }
@@ -126,7 +128,6 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(MonthBudget... monthBudgets) {
             mMonthBudgetAsyncTaskDao.insert(monthBudgets[0]);
-            Log.e("ENTER:", "SUCCESSFUL");
             return null;
         }
     }
@@ -139,6 +140,20 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground (MonthBudget... monthBudgets) {
             mMonthBudgetAsyncTaskDao.updateMonthBudget(monthBudgets[0]);
+            return null;
+        }
+    }
+
+    private static class deleteReceiptAsyncTask extends AsyncTask<Receipt, Void, Void> {
+        private ReceiptDao mAsyncTaskDao;
+
+        deleteReceiptAsyncTask(ReceiptDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Receipt... params) {
+            mAsyncTaskDao.deleteReceipt(params[0]);
             return null;
         }
     }
