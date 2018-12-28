@@ -1,5 +1,6 @@
 package app.company.bulba.com.budgetappv2;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -177,6 +179,9 @@ public class NewReceiptFragment extends Fragment {
                     }
                     mMonthBudgetViewModel.insert(monthBudget);
                 }
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 
 

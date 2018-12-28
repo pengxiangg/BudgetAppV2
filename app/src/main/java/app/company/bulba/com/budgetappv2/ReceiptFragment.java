@@ -56,7 +56,7 @@ public class ReceiptFragment extends Fragment {
 
         mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
 
-
+        //Loads Receipts into view
         mReceiptViewModel.getAllReceipts().observe(this, new Observer<List<Receipt>>() {
             @Override
             public void onChanged(@Nullable final List<Receipt> receipts) {
@@ -88,6 +88,7 @@ public class ReceiptFragment extends Fragment {
             }
         });
 
+        //Allows for swipe deleting of Receipt Item
         ItemTouchHelper helper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
                         ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -106,11 +107,13 @@ public class ReceiptFragment extends Fragment {
                         String monthDate = parts[1];
                         int cost = myReceipt.getCost();
 
+                        //Updates the MonthBudget table with updated values after deletion
                         int mbID = mMonthBudgetViewModel.getMhId(category, monthDate);
                         int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
                         int newMbSpent = mbSpent - cost;
                         mMonthBudgetViewModel.updateMhSpent(newMbSpent, mbID);
 
+                        //Checks if limit exists to prevent negative remainder value
                         int mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
                         if(mbLimit!=0) {
                             int mbRemainder = mbLimit - newMbSpent;
