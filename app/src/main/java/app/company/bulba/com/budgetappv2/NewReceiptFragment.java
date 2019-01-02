@@ -29,6 +29,7 @@ import android.widget.Toast;
 import org.w3c.dom.Entity;
 
 import java.io.StringBufferInputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +54,7 @@ public class NewReceiptFragment extends Fragment {
     private List<String> mAllMonthCat;
     private List<String> mAllMonthDate;
     private boolean duplicate;
+    private String yearString;
 
 
 
@@ -105,17 +107,15 @@ public class NewReceiptFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                String date = day + "/" + month + "/" + year;
-                mDateEditView.setText(date);
-            }
-        };
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                String date = day + "/" + month + "/" + year;
-                mDateEditView.setText(date);
+                String dateString = day + "/" + month + "/" + year;
+                SimpleDateFormat dayFirstSdf = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    Date dayDate = dayFirstSdf.parse(dateString);
+                    String dayString = dayFirstSdf.format(dayDate);
+                    mDateEditView.setText(dayString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -126,30 +126,41 @@ public class NewReceiptFragment extends Fragment {
                 String details = mDetailsEditView.getText().toString();
                 String costString = mCostEditView.getText().toString();
                 int costInt = Integer.parseInt(costString);
-                String date = mDateEditView.getText().toString();
+                String dateString = mDateEditView.getText().toString();
                 String category = mCategoryEditView.getText().toString();
 
-                if(details.length() == 0 || costString.length() == 0 || date.length() == 0) {
+                if(details.length() == 0 || costString.length() == 0 || dateString.length() == 0) {
                     Toast.makeText(getContext(), "Please make sure all details are correct", Toast.LENGTH_LONG).show();
                     return;
+                }
+
+                SimpleDateFormat dayFirstSdf = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat yearFirstSdf = new SimpleDateFormat("yyyy/MM/dd");
+
+                try {
+                    Date dayDate = dayFirstSdf.parse(dateString);
+                    yearString = yearFirstSdf.format(dayDate);
+                    String dayString = dayFirstSdf.format(dayDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
 
                 Receipt receipt = new Receipt();
                 receipt.setDetails(details);
                 receipt.setCost(costInt);
-                receipt.setDate(date);
+                receipt.setDate(yearString);
                 receipt.setCategory(category);
                 mReceiptViewModel.insert(receipt);
 
-                String parts[] = date.split("/", 2);
-                String monthDate = parts[1];
+                String yearMonthString = yearString.substring(0,7);
+                Log.e("TEST!!!: ", yearMonthString);
 
                 duplicate = false;
 
                 for(int i = 0; i < mAllMonthCat.size(); ++i) {
                     if(category.equals(mAllMonthCat.get(i))) {
                         for(int j = 0; j < mAllMonthDate.size(); ++j) {
-                            if(monthDate.equals(mAllMonthDate.get(j))) {
+                            if(yearMonthString.equals(mAllMonthDate.get(j))) {
                                 duplicate = true;
                             }
                         }
@@ -157,7 +168,7 @@ public class NewReceiptFragment extends Fragment {
                 }
 
                 if(duplicate) {
-                    int mbID = mMonthBudgetViewModel.getMhId(category, monthDate);
+                    int mbID = mMonthBudgetViewModel.getMhId(category, yearMonthString);
                     int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
                     mbSpent = mbSpent + costInt;
                     mMonthBudgetViewModel.updateMhSpent(mbSpent, mbID);
@@ -168,7 +179,7 @@ public class NewReceiptFragment extends Fragment {
                     }
                 } else {
                     MonthBudget monthBudget = new MonthBudget();
-                    monthBudget.setMhDate(monthDate);
+                    monthBudget.setMhDate(yearMonthString);
                     monthBudget.setMhCategory(category);
                     monthBudget.setMhSpent(costInt);
                     int limit = returnLimitBudget(category);

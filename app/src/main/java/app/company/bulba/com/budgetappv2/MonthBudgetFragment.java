@@ -67,7 +67,7 @@ public class MonthBudgetFragment extends Fragment {
 
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("MM/yyyy");
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy/MM");
         String dateMonth = mdformat.format(calendar.getTime());
         Log.e("Tag: ", dateMonth + "DATE");
 
@@ -102,6 +102,7 @@ public class MonthBudgetFragment extends Fragment {
                     if (mAllCatMb.get(i).equals(category)) {
                         if (mAllDateMb.get(j).equals(dateMonth)) {
                             return dup = true;
+                            //Need to add break??????
                         }
                     }
                 }

@@ -97,7 +97,7 @@ public class AddBudgetFragment extends Fragment {
                    budgetModel.insert(budget);
 
                    Calendar calendar = Calendar.getInstance();
-                   SimpleDateFormat mdformat = new SimpleDateFormat("MM/yyyy");
+                   SimpleDateFormat mdformat = new SimpleDateFormat("yyyy/MM");
                    dateMonth = mdformat.format(calendar.getTime());
                    Log.e("TAG: ", "date: " + dateMonth);
 
