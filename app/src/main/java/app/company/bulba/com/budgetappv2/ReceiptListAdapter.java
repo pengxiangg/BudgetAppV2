@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Receipt;
@@ -46,17 +49,38 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
     @Override
     public void onBindViewHolder(ReceiptViewHolder holder, int position) {
         if(mReceipts != null) {
+
             Receipt current = mReceipts.get(position);
+            String dayString = "";
+
+            SimpleDateFormat yearSdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat daySdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+                Date date = yearSdf.parse(current.getDate());
+                dayString = daySdf.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             holder.detailsItemView.setText(current.getDetails());
             holder.costItemView.setText(Integer.toString(current.getCost()));
-            holder.dateItemView.setText(current.getDate());
+            holder.dateItemView.setText(dayString);
             holder.categoryItemView.setText(current.getCategory());
+
+            if(position > 0 && current.getDate().equals(mReceipts.get(position-1).getDate())) {
+                holder.dateItemView.setVisibility(View.GONE);
+            } else {
+                holder.dateItemView.setVisibility(View.VISIBLE);
+            }
+
         } else {
             holder.detailsItemView.setText("No Details");
             holder.costItemView.setText("No Cost");
             holder.dateItemView.setText("No Date");
             holder.categoryItemView.setText("No Category");
         }
+
     }
 
     void setReceipts(List<Receipt> receipts) {

@@ -92,6 +92,8 @@ public class ReceiptRepository {
 
     int getLimitCatBudget(String budgetCategory) {return mBudgetDao.getLimitCatBudget(budgetCategory);}
 
+    LiveData<List<Receipt>> getAllReceiptsDesc() {return mReceiptDao.getAllReceiptsDesc();}
+
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
         private ReceiptDao mAsyncTaskDao;

@@ -57,11 +57,17 @@ public class ReceiptFragment extends Fragment {
         mMonthBudgetViewModel = ViewModelProviders.of(this).get(MonthBudgetViewModel.class);
 
         //Loads Receipts into view
-        mReceiptViewModel.getAllReceipts().observe(this, new Observer<List<Receipt>>() {
+        /*mReceiptViewModel.getAllReceipts().observe(this, new Observer<List<Receipt>>() {
             @Override
             public void onChanged(@Nullable final List<Receipt> receipts) {
                 adapter.setReceipts(receipts);
+            }
+        });*/
 
+        mReceiptViewModel.getAllReceiptsDesc().observe(this, new Observer<List<Receipt>>() {
+            @Override
+            public void onChanged(@Nullable List<Receipt> receipts) {
+                adapter.setReceipts(receipts);
             }
         });
 
