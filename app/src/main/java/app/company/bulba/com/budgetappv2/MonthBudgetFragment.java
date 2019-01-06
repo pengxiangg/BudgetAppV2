@@ -53,7 +53,7 @@ public class MonthBudgetFragment extends Fragment {
 
         mBudgetViewModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
 
-        mMonthBudgetViewModel.getAllMonthBudgets().observe(this, new Observer<List<MonthBudget>>() {
+        mMonthBudgetViewModel.getAllMonthBudgetDesc().observe(this, new Observer<List<MonthBudget>>() {
             @Override
             public void onChanged(@Nullable List<MonthBudget> monthBudgets) {
                 adapter.setMonthBudgets(monthBudgets);

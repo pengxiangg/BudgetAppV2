@@ -50,9 +50,9 @@ public interface MonthBudgetDao {
     @Query("UPDATE monthBudget_table SET mhLimit = :mhLimit WHERE mhId = :mhId")
     void updateMhLimit (int mhLimit, int mhId);
 
-    @Query("SELECT * FROM monthBudget_table")
-    List<MonthBudget> getAllMonthBudgetsNon();
-
     @Query("SELECT (mhCategory || ', ' || mhDate) from monthBudget_table")
     List<String> getCatAndMonthDateBudgetM();
+
+    @Query("SELECT * FROM monthBudget_table ORDER BY mhDate DESC")
+    LiveData<List<MonthBudget>> getAllMonthBudgetDesc();
 }
