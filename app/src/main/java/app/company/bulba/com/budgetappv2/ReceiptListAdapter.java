@@ -54,7 +54,7 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             String dayString = "";
 
             SimpleDateFormat yearSdf = new SimpleDateFormat("yyyy/MM/dd");
-            SimpleDateFormat daySdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat daySdf = new SimpleDateFormat("dd MMM yy");
 
             try {
                 Date date = yearSdf.parse(current.getDate());
@@ -64,15 +64,17 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             }
 
             holder.detailsItemView.setText(current.getDetails());
-            holder.costItemView.setText(Integer.toString(current.getCost()));
+            holder.costItemView.setText("$" + Integer.toString(current.getCost()));
             holder.dateItemView.setText(dayString);
             holder.categoryItemView.setText(current.getCategory());
 
+            //Removes view displaying date if same date with view above
+            /*
             if(position > 0 && current.getDate().equals(mReceipts.get(position-1).getDate())) {
                 holder.dateItemView.setVisibility(View.GONE);
             } else {
                 holder.dateItemView.setVisibility(View.VISIBLE);
-            }
+            }*/
 
         } else {
             holder.detailsItemView.setText("No Details");

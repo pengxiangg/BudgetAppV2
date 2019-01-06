@@ -81,9 +81,10 @@ public class ReceiptFragment extends Fragment {
             }
         });
 
-        final TextView totalCostTextView = getView().findViewById(R.id.total_cost_tv);
+        //final TextView totalCostTextView = getView().findViewById(R.id.total_cost_tv);
 
-        mReceiptViewModel.getTotalCost().observe(this, new Observer<Integer>() {
+        //Gets total spent
+        /*mReceiptViewModel.getTotalCost().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 if (integer == null) {
@@ -92,7 +93,7 @@ public class ReceiptFragment extends Fragment {
                 totalCostTextView.setText(Integer.toString(integer));
 
             }
-        });
+        });*/
 
         //Allows for swipe deleting of Receipt Item
         ItemTouchHelper helper = new ItemTouchHelper(

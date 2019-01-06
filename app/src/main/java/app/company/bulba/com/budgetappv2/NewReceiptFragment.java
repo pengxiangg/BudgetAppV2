@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,9 +70,11 @@ public class NewReceiptFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mDetailsEditView = getView().findViewById(R.id.details_editView);
+        mDetailsEditView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         mCostEditView = getView().findViewById(R.id.cost_editView);
         mDateEditView = getView().findViewById(R.id.date_editView);
         mCategoryEditView = getView().findViewById(R.id.category_editView);
+        mCategoryEditView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         mDateEditView.setText(sdf.format(new Date()));
