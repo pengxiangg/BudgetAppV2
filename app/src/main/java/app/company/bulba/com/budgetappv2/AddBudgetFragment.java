@@ -144,6 +144,7 @@ public class AddBudgetFragment extends Fragment {
                         mbInt = monthBudget.getMhId();
                     }
                     duplicate = true;
+                    break;
                 } else duplicate = false;
             }
         }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.MonthBudget;
@@ -51,11 +54,49 @@ public class MonthBudgetListAdapter extends RecyclerView.Adapter<MonthBudgetList
     public void onBindViewHolder(MonthBudgetViewHolder holder, int position) {
         if(mMonthBudget != null) {
             MonthBudget current = mMonthBudget.get(position);
-            holder.mhDateItemView.setText(current.getMhDate());
+
+            String MonthString = "";
+
+            SimpleDateFormat yearSdf = new SimpleDateFormat("yyyy/MM");
+            SimpleDateFormat MonthSdf = new SimpleDateFormat("MMM yyyy");
+
+            try {
+                Date date = yearSdf.parse(current.getMhDate());
+                MonthString = MonthSdf.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            holder.mhDateItemView.setText(MonthString);
+
             holder.mhCategoryItemView.setText(current.getMhCategory());
-            holder.mhLimitItemView.setText(Integer.toString(current.getMhlimit()));
-            holder.mhSpentItemView.setText(Integer.toString(current.getMhSpent()));
-            holder.mhRemainderItemView.setText(Integer.toString(current.getMhRemainder()));
+
+            int limit = current.getMhlimit();
+            if(limit!=0) {
+                holder.mhLimitItemView.setText("$"+Integer.toString(current.getMhlimit()));
+            } else {
+                holder.mhLimitItemView.setText("-");
+            }
+
+            int spent = current.getMhSpent();
+            if(spent!=0) {
+                holder.mhSpentItemView.setText("$"+Integer.toString(current.getMhSpent()));
+            } else {
+                holder.mhSpentItemView.setText("-");
+            }
+
+            int remainder = current.getMhRemainder();
+            if(remainder!=0) {
+                holder.mhRemainderItemView.setText("$"+Integer.toString(current.getMhRemainder()));
+            } else {
+                holder.mhRemainderItemView.setText("-");
+            }
+
+            if(position > 0 && current.getMhDate().equals(mMonthBudget.get(position-1).getMhDate())) {
+                holder.mhDateItemView.setVisibility(View.GONE);
+            } else {
+                holder.mhDateItemView.setVisibility(View.VISIBLE);
+            }
+
         } else {
             holder.mhDateItemView.setText("No Date");
             holder.mhCategoryItemView.setText("No Category");
