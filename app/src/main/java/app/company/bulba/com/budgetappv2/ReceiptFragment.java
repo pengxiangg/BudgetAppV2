@@ -76,7 +76,7 @@ public class ReceiptFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NewReceiptFragment fragment = new NewReceiptFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment).addToBackStack(null)
                         .commit();
             }
         });

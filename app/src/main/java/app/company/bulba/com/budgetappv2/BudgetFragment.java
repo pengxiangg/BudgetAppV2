@@ -56,7 +56,7 @@ public class BudgetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AddBudgetFragment fragment = new AddBudgetFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment).addToBackStack(null)
                         .commit();
             }
         });

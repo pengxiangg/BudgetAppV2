@@ -1,5 +1,6 @@
 package app.company.bulba.com.budgetappv2;
 
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -117,6 +119,9 @@ public class AddBudgetFragment extends Fragment {
                            }
                        }
                    }
+
+                   InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                    BudgetFragment fragment = new BudgetFragment();
                    getFragmentManager().beginTransaction().replace(R.id.frag_container, fragment)
