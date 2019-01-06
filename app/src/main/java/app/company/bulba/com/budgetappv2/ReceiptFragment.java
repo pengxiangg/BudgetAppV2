@@ -110,8 +110,7 @@ public class ReceiptFragment extends Fragment {
                         Receipt myReceipt = adapter.getReceiptAtPosition(position);
                         String category = myReceipt.getCategory();
                         String date = myReceipt.getDate();
-                        String parts[] = date.split("/", 2);
-                        String monthDate = parts[1];
+                        String monthDate = date.substring(0,7);;
                         int cost = myReceipt.getCost();
 
                         //Updates the MonthBudget table with updated values after deletion
