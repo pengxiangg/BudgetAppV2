@@ -75,7 +75,7 @@ public class AddBudgetFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                category = categoryET.getText().toString();
+                category = categoryET.getText().toString().toUpperCase();
                 String limitString = limitET.getText().toString();
                 int limitInt = Integer.parseInt(limitString);
                 duplicate = false;
@@ -108,6 +108,7 @@ public class AddBudgetFragment extends Fragment {
                        monthBudget.setMhCategory(category);
                        monthBudget.setMhDate(dateMonth);
                        monthBudget.setMhlimit(limitInt);
+                       monthBudget.setMhRemainder(limitInt);
                        mbModel.insert(monthBudget);
                    } else {
                        if (mbInt > 0) {

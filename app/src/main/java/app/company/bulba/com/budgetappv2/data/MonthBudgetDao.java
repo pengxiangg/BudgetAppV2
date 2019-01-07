@@ -2,6 +2,7 @@ package app.company.bulba.com.budgetappv2.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -44,6 +45,9 @@ public interface MonthBudgetDao {
     @Query("SELECT mhSpent FROM monthBudget_table WHERE mhId = :mhID")
     int getMhSpent(int mhID);
 
+    @Query("SELECT * FROM monthBudget_table WHERE mhId = :mhID")
+    MonthBudget getMonthBudget(int mhID);
+
     @Query("UPDATE monthBudget_table SET mhRemainder = :mhRemainder WHERE mhId = :mhId")
     void updateMhRemainder(int mhRemainder, int mhId);
 
@@ -55,4 +59,7 @@ public interface MonthBudgetDao {
 
     @Query("SELECT * FROM monthBudget_table ORDER BY mhDate DESC")
     LiveData<List<MonthBudget>> getAllMonthBudgetDesc();
+
+    @Delete
+    void deleteMonthBudget(MonthBudget monthBudget);
 }

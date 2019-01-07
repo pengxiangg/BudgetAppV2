@@ -36,4 +36,6 @@ public class BudgetViewModel extends AndroidViewModel {
 
     int getLimitCatBudget(String budgetCategory) {return mRepository.getLimitCatBudget(budgetCategory);}
 
+    public void delete(Budget budget) {mRepository.deleteBudget(budget);}
+
 }

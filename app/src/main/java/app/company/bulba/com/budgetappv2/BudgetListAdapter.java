@@ -67,4 +67,8 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
             return mBudget.size();
         else return 0;
     }
+
+    public Budget getBudgetAtPosition (int position) {
+        return mBudget.get(position);
+    }
 }

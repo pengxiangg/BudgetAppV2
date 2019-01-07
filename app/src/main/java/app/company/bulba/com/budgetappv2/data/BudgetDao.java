@@ -2,6 +2,7 @@ package app.company.bulba.com.budgetappv2.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -31,4 +32,7 @@ public interface BudgetDao {
 
     @Query("SELECT `limit` FROM budget_table WHERE budgetCategory = :budgetCategory")
     int getLimitCatBudget(String budgetCategory);
+
+    @Delete
+    void deleteBudget(Budget budget);
 }

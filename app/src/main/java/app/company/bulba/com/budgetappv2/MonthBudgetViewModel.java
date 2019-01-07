@@ -51,4 +51,8 @@ public class MonthBudgetViewModel extends AndroidViewModel {
     List<String> getCatAndMonthDateBudgetM() {return mRepository.getCatAndMonthDateBudgetM();}
 
     LiveData<List<MonthBudget>> getAllMonthBudgetDesc() {return mAllMonthBudgetDesc;}
+
+    public void delete(MonthBudget monthBudget) {mRepository.deleteMonthBudget(monthBudget);}
+
+    MonthBudget getMonthBudget (int mhId) {return mRepository.getMonthBudget(mhId);}
 }

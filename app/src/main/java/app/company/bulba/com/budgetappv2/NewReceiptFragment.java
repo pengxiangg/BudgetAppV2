@@ -130,7 +130,7 @@ public class NewReceiptFragment extends Fragment {
                 String costString = mCostEditView.getText().toString();
                 int costInt = Integer.parseInt(costString);
                 String dateString = mDateEditView.getText().toString();
-                String category = mCategoryEditView.getText().toString();
+                String category = mCategoryEditView.getText().toString().toUpperCase();
 
                 if(details.length() == 0 || costString.length() == 0 || dateString.length() == 0) {
                     Toast.makeText(getContext(), "Please make sure all details are correct", Toast.LENGTH_LONG).show();
@@ -165,6 +165,7 @@ public class NewReceiptFragment extends Fragment {
                         for(int j = 0; j < mAllMonthDate.size(); ++j) {
                             if(yearMonthString.equals(mAllMonthDate.get(j))) {
                                 duplicate = true;
+                                break;
                             }
                         }
                     }

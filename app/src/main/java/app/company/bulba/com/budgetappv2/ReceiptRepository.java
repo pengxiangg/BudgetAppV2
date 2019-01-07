@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.time.Month;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
@@ -63,6 +64,10 @@ public class ReceiptRepository {
 
     public void deleteReceipt(Receipt receipt) { new deleteReceiptAsyncTask(mReceiptDao).execute(receipt);}
 
+    public void deleteBudget(Budget budget) {new deleteBudgetAsyncTask(mBudgetDao).execute(budget);}
+
+    public void deleteMonthBudget(MonthBudget monthBudget) {new deleteMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget);}
+
     void updateMhSpent (int spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
 
     List<String> getAllCategories() { return mBudgetDao.getAllCategories(); }
@@ -92,6 +97,8 @@ public class ReceiptRepository {
     LiveData<List<Receipt>> getAllReceiptsDesc() {return mReceiptDao.getAllReceiptsDesc();}
 
     LiveData<List<MonthBudget>> getAllMonthBudgetDesc() {return mMonthBudgetDao.getAllMonthBudgetDesc();}
+
+    MonthBudget getMonthBudget(int id) {return  mMonthBudgetDao.getMonthBudget(id);}
 
     private static class insertAsyncTask extends AsyncTask<Receipt, Void, Void> {
 
@@ -155,6 +162,30 @@ public class ReceiptRepository {
         @Override
         protected Void doInBackground(final Receipt... params) {
             mAsyncTaskDao.deleteReceipt(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteBudgetAsyncTask extends AsyncTask<Budget, Void, Void> {
+        private BudgetDao mAsyncTaskDao;
+
+        deleteBudgetAsyncTask(BudgetDao dao) {mAsyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground(final Budget... params) {
+            mAsyncTaskDao.deleteBudget(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteMonthBudgetAsyncTask extends AsyncTask<MonthBudget, Void, Void> {
+        private MonthBudgetDao mAsyncTaskDao;
+
+        deleteMonthBudgetAsyncTask(MonthBudgetDao dao) {mAsyncTaskDao = dao;}
+
+        @Override
+        protected Void doInBackground(final MonthBudget... params) {
+            mAsyncTaskDao.deleteMonthBudget(params[0]);
             return null;
         }
     }
