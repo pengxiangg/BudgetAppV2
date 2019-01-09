@@ -24,21 +24,24 @@
             android:layout_weight="2"
             android:text="Limit"
             android:textSize="16dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:gravity="right"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="Spent"
             android:textSize="16dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:gravity="right"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:text="Remainder"
             android:textSize="16dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:gravity="right"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
