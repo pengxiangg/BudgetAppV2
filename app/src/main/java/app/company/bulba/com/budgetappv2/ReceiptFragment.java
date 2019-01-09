@@ -111,18 +111,18 @@ public class ReceiptFragment extends Fragment {
                         String category = myReceipt.getCategory();
                         String date = myReceipt.getDate();
                         String monthDate = date.substring(0,7);;
-                        int cost = myReceipt.getCost();
+                        double cost = myReceipt.getCost();
 
                         //Updates the MonthBudget table with updated values after deletion
                         int mbID = mMonthBudgetViewModel.getMhId(category, monthDate);
-                        int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
-                        int newMbSpent = mbSpent - cost;
+                        double mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
+                        double newMbSpent = mbSpent - cost;
                         mMonthBudgetViewModel.updateMhSpent(newMbSpent, mbID);
 
                         //Checks if limit exists to prevent negative remainder value
-                        int mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
+                        double mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
                         if(mbLimit!=0) {
-                            int mbRemainder = mbLimit - newMbSpent;
+                            double mbRemainder = mbLimit - newMbSpent;
                             mMonthBudgetViewModel.updateMhRemainder(mbRemainder, mbID);
                         }
 

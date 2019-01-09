@@ -32,9 +32,9 @@ public class BudgetViewModel extends AndroidViewModel {
 
     List<String> getAllCategories() { return mRepository.getAllCategories(); }
 
-    LiveData<List<Integer>> getAllLimitBudget() {return mRepository.getAllLimitBudget();}
+    LiveData<List<Double>> getAllLimitBudget() {return mRepository.getAllLimitBudget();}
 
-    int getLimitCatBudget(String budgetCategory) {return mRepository.getLimitCatBudget(budgetCategory);}
+    double getLimitCatBudget(String budgetCategory) {return mRepository.getLimitCatBudget(budgetCategory);}
 
     public void delete(Budget budget) {mRepository.deleteBudget(budget);}
 

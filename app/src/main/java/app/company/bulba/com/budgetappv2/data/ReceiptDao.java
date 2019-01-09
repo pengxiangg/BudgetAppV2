@@ -26,7 +26,7 @@ public interface ReceiptDao {
     LiveData<List<Receipt>> getAllReceipts();
 
     @Query("SELECT SUM(cost) FROM receipt_table")
-    LiveData<Integer> getTotalCost();
+    LiveData<Double> getTotalCost();
 
     @Query("SELECT sum(cost) FROM receipt_table WHERE category = :category AND date LIKE :date")
     int getSumByCatAndDate(String category, String date);

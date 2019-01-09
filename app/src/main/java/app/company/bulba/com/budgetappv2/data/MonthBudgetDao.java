@@ -37,22 +37,22 @@ public interface MonthBudgetDao {
     int getMhId(String mhCategory, String mhDate);
 
     @Query("UPDATE monthBudget_table SET mhSpent = :mhSpent WHERE mhId = :mhId")
-    void updateMhSpent(int mhSpent, int mhId);
+    void updateMhSpent(double mhSpent, int mhId);
 
     @Query("SELECT mhlimit FROM monthBudget_table WHERE mhId = :mhID")
-    int getMhLimit(int mhID);
+    double getMhLimit(int mhID);
 
     @Query("SELECT mhSpent FROM monthBudget_table WHERE mhId = :mhID")
-    int getMhSpent(int mhID);
+    double getMhSpent(int mhID);
 
     @Query("SELECT * FROM monthBudget_table WHERE mhId = :mhID")
     MonthBudget getMonthBudget(int mhID);
 
     @Query("UPDATE monthBudget_table SET mhRemainder = :mhRemainder WHERE mhId = :mhId")
-    void updateMhRemainder(int mhRemainder, int mhId);
+    void updateMhRemainder(double mhRemainder, int mhId);
 
     @Query("UPDATE monthBudget_table SET mhLimit = :mhLimit WHERE mhId = :mhId")
-    void updateMhLimit (int mhLimit, int mhId);
+    void updateMhLimit (double mhLimit, int mhId);
 
     @Query("SELECT (mhCategory || ', ' || mhDate) from monthBudget_table")
     List<String> getCatAndMonthDateBudgetM();

@@ -103,7 +103,7 @@ public class BudgetFragment extends Fragment {
                                         //If user wants to delete budget limit for current month from monthBudget
                                         if(checkBox.isChecked()) {
                                             int mbId = mMonthBudgetViewModel.getMhId(category, dateMonth);
-                                            int spent = mMonthBudgetViewModel.getMhSpent(mbId);
+                                            double spent = mMonthBudgetViewModel.getMhSpent(mbId);
                                             if(spent==0){
                                                 //Delete everything if spending is 0
                                                 MonthBudget monthBudget = mMonthBudgetViewModel.getMonthBudget(mbId);

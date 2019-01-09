@@ -128,7 +128,7 @@ public class NewReceiptFragment extends Fragment {
             public void onClick(View view) {
                 String details = mDetailsEditView.getText().toString();
                 String costString = mCostEditView.getText().toString();
-                int costInt = Integer.parseInt(costString);
+                double costInt = Double.parseDouble(costString);
                 String dateString = mDateEditView.getText().toString();
                 String category = mCategoryEditView.getText().toString().toUpperCase();
 
@@ -173,12 +173,12 @@ public class NewReceiptFragment extends Fragment {
 
                 if(duplicate) {
                     int mbID = mMonthBudgetViewModel.getMhId(category, yearMonthString);
-                    int mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
+                    double mbSpent = mMonthBudgetViewModel.getMhSpent(mbID);
                     mbSpent = mbSpent + costInt;
                     mMonthBudgetViewModel.updateMhSpent(mbSpent, mbID);
-                    int mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
+                    double mbLimit = mMonthBudgetViewModel.getMhLimit(mbID);
                     if(mbLimit!=0) {
-                        int mbRemainder = mbLimit - mbSpent;
+                        double mbRemainder = mbLimit - mbSpent;
                         mMonthBudgetViewModel.updateMhRemainder(mbRemainder, mbID);
                     }
                 } else {
@@ -186,10 +186,10 @@ public class NewReceiptFragment extends Fragment {
                     monthBudget.setMhDate(yearMonthString);
                     monthBudget.setMhCategory(category);
                     monthBudget.setMhSpent(costInt);
-                    int limit = returnLimitBudget(category);
+                    double limit = returnLimitBudget(category);
                     if(limit != 0) {
                         monthBudget.setMhlimit(limit);
-                        int remainder = limit - costInt;
+                        double remainder = limit - costInt;
                         monthBudget.setMhRemainder(remainder);
                     }
                     mMonthBudgetViewModel.insert(monthBudget);
@@ -209,8 +209,8 @@ public class NewReceiptFragment extends Fragment {
 
     }
 
-    private int returnLimitBudget(String categoryBudget) {
-        int limit = mBudgetViewModel.getLimitCatBudget(categoryBudget);
+    private double returnLimitBudget(String categoryBudget) {
+        double limit = mBudgetViewModel.getLimitCatBudget(categoryBudget);
         if(limit != 0) {
             return limit;
         } else {

@@ -20,7 +20,7 @@ public class Receipt {
     private int id;
 
     private String details;
-    private int cost;
+    private double cost;
     private String date;
     private String category;
 
@@ -32,9 +32,9 @@ public class Receipt {
 
     public void setDetails(String details) { this.details = details; }
 
-    public int getCost() { return cost; }
+    public double getCost() { return cost; }
 
-    public void setCost(int cost) { this.cost = cost; }
+    public void setCost(double cost) { this.cost = cost; }
 
     public String getDate() { return date; }
 

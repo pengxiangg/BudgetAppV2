@@ -28,10 +28,10 @@ public interface BudgetDao {
     List<String> getAllCategories();
 
     @Query("SELECT `limit` FROM budget_table")
-    LiveData<List<Integer>> getAllLimitBudget();
+    LiveData<List<Double>> getAllLimitBudget();
 
     @Query("SELECT `limit` FROM budget_table WHERE budgetCategory = :budgetCategory")
-    int getLimitCatBudget(String budgetCategory);
+    double getLimitCatBudget(String budgetCategory);
 
     @Delete
     void deleteBudget(Budget budget);

@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,24 +73,25 @@ public class MonthBudgetListAdapter extends RecyclerView.Adapter<MonthBudgetList
 
             String category = current.getMhCategory();
             holder.mhCategoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
+            DecimalFormat df = new DecimalFormat("#0.00");
 
-            int limit = current.getMhlimit();
+            double limit = current.getMhlimit();
             if(limit!=0) {
-                holder.mhLimitItemView.setText("$"+Integer.toString(current.getMhlimit()));
+                holder.mhLimitItemView.setText("$"+df.format(current.getMhlimit()));
             } else {
                 holder.mhLimitItemView.setText("-");
             }
 
-            int spent = current.getMhSpent();
+            double spent = current.getMhSpent();
             if(spent!=0) {
-                holder.mhSpentItemView.setText("$"+Integer.toString(current.getMhSpent()));
+                holder.mhSpentItemView.setText("$"+df.format(current.getMhSpent()));
             } else {
                 holder.mhSpentItemView.setText("-");
             }
 
-            int remainder = current.getMhRemainder();
+            double remainder = current.getMhRemainder();
             if(remainder!=0) {
-                holder.mhRemainderItemView.setText("$"+Integer.toString(current.getMhRemainder()));
+                holder.mhRemainderItemView.setText("$"+df.format(current.getMhRemainder()));
             } else {
                 holder.mhRemainderItemView.setText("-");
             }
@@ -118,6 +122,14 @@ public class MonthBudgetListAdapter extends RecyclerView.Adapter<MonthBudgetList
         if(mMonthBudget != null)
             return mMonthBudget.size();
         else return 0;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 

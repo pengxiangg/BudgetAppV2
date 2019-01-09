@@ -15,12 +15,12 @@ public class Budget {
     @NonNull
     private String budgetCategory;
 
-    private int limit;
+    private double limit;
 
     public String getBudgetCategory() {return budgetCategory;}
     public void setBudgetCategory(String budgetCategory) {this.budgetCategory = budgetCategory; }
 
-    public int getLimit() {return limit; }
-    public void setLimit(int limit) {this.limit = limit; }
+    public double getLimit() {return limit; }
+    public void setLimit(double limit) {this.limit = limit; }
 
 }

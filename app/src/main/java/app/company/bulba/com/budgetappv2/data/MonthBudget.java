@@ -19,11 +19,11 @@ public class MonthBudget {
 
     private String mhCategory;
 
-    private int mhlimit;
+    private double mhlimit;
 
-    private int mhSpent;
+    private double mhSpent;
 
-    private int mhRemainder;
+    private double mhRemainder;
 
     public int getMhId() { return mhId; }
     public void setMhId(int mhId) { this.mhId = mhId; }
@@ -34,13 +34,13 @@ public class MonthBudget {
     public String getMhCategory() { return mhCategory; }
     public void setMhCategory(String mhCategory) { this.mhCategory = mhCategory; }
 
-    public int getMhlimit() { return mhlimit; }
-    public void setMhlimit(int mhlimit) { this.mhlimit = mhlimit; }
+    public double getMhlimit() { return mhlimit; }
+    public void setMhlimit(double mhlimit) { this.mhlimit = mhlimit; }
 
-    public int getMhSpent() { return mhSpent; }
-    public void setMhSpent(int mhSpent) { this.mhSpent = mhSpent; }
+    public double getMhSpent() { return mhSpent; }
+    public void setMhSpent(double mhSpent) { this.mhSpent = mhSpent; }
 
-    public int getMhRemainder() { return mhRemainder; }
-    public void setMhRemainder(int mhRemainder) { this.mhRemainder = mhRemainder; }
+    public double getMhRemainder() { return mhRemainder; }
+    public void setMhRemainder(double mhRemainder) { this.mhRemainder = mhRemainder; }
 
 }

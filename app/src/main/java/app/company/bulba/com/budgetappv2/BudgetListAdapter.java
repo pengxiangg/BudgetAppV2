@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import app.company.bulba.com.budgetappv2.data.Budget;
@@ -45,11 +48,13 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
 
     @Override
     public void onBindViewHolder(BudgetViewHolder holder, int position) {
+
         if(mBudget != null) {
             Budget current = mBudget.get(position);
             String category = current.getBudgetCategory();
             holder.categoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
-            holder.limitItemView.setText("$"+Integer.toString(current.getLimit()));
+            DecimalFormat df = new DecimalFormat("#0.00");
+            holder.limitItemView.setText("$"+df.format(current.getLimit()));
         } else {
             holder.categoryItemView.setText("No Category");
             holder.limitItemView.setText("No Limit");
@@ -71,5 +76,13 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
 
     public Budget getBudgetAtPosition (int position) {
         return mBudget.get(position);
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

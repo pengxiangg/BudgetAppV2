@@ -38,17 +38,15 @@ public class MonthBudgetViewModel extends AndroidViewModel {
 
     public void update (MonthBudget monthBudget) {mRepository.update(monthBudget);}
 
-    void updateMhSpent (int spent, int id) {mRepository.updateMhSpent(spent, id);}
+    void updateMhSpent (double spent, int id) {mRepository.updateMhSpent(spent, id);}
 
-    int getMhLimit (int mhId) {return mRepository.getMhLimit(mhId);}
+    double getMhLimit (int mhId) {return mRepository.getMhLimit(mhId);}
 
-    void updateMhRemainder (int remainder, int id) {mRepository.updateMhRemainder(remainder, id);}
+    void updateMhRemainder (double remainder, int id) {mRepository.updateMhRemainder(remainder, id);}
 
-    void updateMhLimit (int limit, int id) {mRepository.updateMhLimit(limit, id);}
+    void updateMhLimit (double limit, int id) {mRepository.updateMhLimit(limit, id);}
 
-    int getMhSpent (int mhId) {return mRepository.getMhSpent(mhId);}
-
-    List<String> getCatAndMonthDateBudgetM() {return mRepository.getCatAndMonthDateBudgetM();}
+    double getMhSpent (int mhId) {return mRepository.getMhSpent(mhId);}
 
     LiveData<List<MonthBudget>> getAllMonthBudgetDesc() {return mAllMonthBudgetDesc;}
 

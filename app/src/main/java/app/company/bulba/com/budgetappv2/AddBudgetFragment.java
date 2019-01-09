@@ -77,7 +77,7 @@ public class AddBudgetFragment extends Fragment {
             public void onClick(View view) {
                 category = categoryET.getText().toString().toUpperCase();
                 String limitString = limitET.getText().toString();
-                int limitInt = Integer.parseInt(limitString);
+                double limitInt = Double.parseDouble(limitString);
                 duplicate = false;
 
                if(category.length() == 0 || limitString.length() == 0) {
@@ -113,9 +113,9 @@ public class AddBudgetFragment extends Fragment {
                    } else {
                        if (mbInt > 0) {
                            mbModel.updateMhLimit(limitInt, mbInt);
-                           int spent = mbModel.getMhSpent(mbInt);
+                           double spent = mbModel.getMhSpent(mbInt);
                            if(spent > 0) {
-                               int remainder = limitInt - spent;
+                               double remainder = limitInt - spent;
                                mbModel.updateMhRemainder(remainder, mbInt);
                            }
                        }

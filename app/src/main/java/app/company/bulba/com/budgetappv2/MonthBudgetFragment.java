@@ -83,7 +83,7 @@ public class MonthBudgetFragment extends Fragment {
                     MonthBudget monthBudget = new MonthBudget();
                     monthBudget.setMhCategory(mAllCatBudget.get(i));
                     monthBudget.setMhDate(dateMonth);
-                    int limit = mBudgetViewModel.getLimitCatBudget(mAllCatBudget.get(i));
+                    double limit = mBudgetViewModel.getLimitCatBudget(mAllCatBudget.get(i));
                     monthBudget.setMhlimit(limit);
                     monthBudget.setMhRemainder(limit);
                     mMonthBudgetViewModel.insert(monthBudget);

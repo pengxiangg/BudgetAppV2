@@ -46,11 +46,11 @@ public class ReceiptRepository {
 
     LiveData<List<MonthBudget>> getAllMonthBudgets() { return mAllMonthBudgets; }
 
-    LiveData<Integer> getTotalCost() {
+    LiveData<Double> getTotalCost() {
         return mReceiptDao.getTotalCost();
     }
 
-    int getSumByCatAndDate(String category, String date) {return mReceiptDao.getSumByCatAndDate(category, date); }
+    double getSumByCatAndDate(String category, String date) {return mReceiptDao.getSumByCatAndDate(category, date); }
 
     public void insert(Receipt receipt) {
         new insertAsyncTask(mReceiptDao).execute(receipt);
@@ -68,7 +68,7 @@ public class ReceiptRepository {
 
     public void deleteMonthBudget(MonthBudget monthBudget) {new deleteMonthBudgetAsyncTask(mMonthBudgetDao).execute(monthBudget);}
 
-    void updateMhSpent (int spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
+    void updateMhSpent (double spent, int id) { mMonthBudgetDao.updateMhSpent(spent, id);}
 
     List<String> getAllCategories() { return mBudgetDao.getAllCategories(); }
 
@@ -78,21 +78,21 @@ public class ReceiptRepository {
 
     int getMhId(String mhCategory, String mhDate) { return mMonthBudgetDao.getMhId(mhCategory, mhDate);}
 
-    int getMhLimit(int mhID) {return mMonthBudgetDao.getMhLimit(mhID);}
+    double getMhLimit(int mhID) {return mMonthBudgetDao.getMhLimit(mhID);}
 
-    void updateMhRemainder (int remainder, int id) {mMonthBudgetDao.updateMhRemainder(remainder, id);}
+    void updateMhRemainder (double remainder, int id) {mMonthBudgetDao.updateMhRemainder(remainder, id);}
 
-    void updateMhLimit (int limit, int id) {mMonthBudgetDao.updateMhLimit(limit, id);}
+    void updateMhLimit (double limit, int id) {mMonthBudgetDao.updateMhLimit(limit, id);}
 
-    int getMhSpent(int mhID) {return mMonthBudgetDao.getMhSpent(mhID);}
+    double getMhSpent(int mhID) {return mMonthBudgetDao.getMhSpent(mhID);}
 
     List<String> getDistinctCatAndMonthDateReceipt() {return mReceiptDao.getDistinctCatAndMonthDateReceipt(); }
 
     List<String> getCatAndMonthDateBudgetM() {return mMonthBudgetDao.getCatAndMonthDateBudgetM();}
 
-    LiveData<List<Integer>> getAllLimitBudget() {return mBudgetDao.getAllLimitBudget();}
+    LiveData<List<Double>> getAllLimitBudget() {return mBudgetDao.getAllLimitBudget();}
 
-    int getLimitCatBudget(String budgetCategory) {return mBudgetDao.getLimitCatBudget(budgetCategory);}
+    double getLimitCatBudget(String budgetCategory) {return mBudgetDao.getLimitCatBudget(budgetCategory);}
 
     LiveData<List<Receipt>> getAllReceiptsDesc() {return mReceiptDao.getAllReceiptsDesc();}
 

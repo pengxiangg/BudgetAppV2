@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,7 +67,8 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             }
 
             holder.detailsItemView.setText(current.getDetails());
-            holder.costItemView.setText("$" + Integer.toString(current.getCost()));
+            DecimalFormat df = new DecimalFormat("#0.00");
+            holder.costItemView.setText("$" + df.format(current.getCost()));
             holder.dateItemView.setText(dayString);
             String category = current.getCategory();
             holder.categoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
@@ -100,5 +104,13 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
 
     public Receipt getReceiptAtPosition (int position) {
         return mReceipts.get(position);
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

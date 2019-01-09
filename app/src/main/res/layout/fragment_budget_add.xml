@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Limit"
-        android:inputType="number"/>
+        android:inputType="numberDecimal"/>
     <Button
         android:id="@+id/button_budget_submit"
         android:layout_width="match_parent"

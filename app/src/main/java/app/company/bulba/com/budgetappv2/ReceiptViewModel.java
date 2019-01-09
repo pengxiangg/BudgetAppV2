@@ -30,9 +30,9 @@ public class ReceiptViewModel extends AndroidViewModel {
 
     public void insert(Receipt receipt) { mRepository.insert(receipt);}
 
-    LiveData<Integer> getTotalCost() { return mRepository.getTotalCost(); }
+    LiveData<Double> getTotalCost() { return mRepository.getTotalCost(); }
 
-    int getSumByCatAndDate(String category, String date) { return mRepository.getSumByCatAndDate(category, date); }
+    double getSumByCatAndDate(String category, String date) { return mRepository.getSumByCatAndDate(category, date); }
 
     List<String> getDistinctCatAndMonthDateReceipt() {return mRepository.getDistinctCatAndMonthDateReceipt(); }
 
