@@ -66,7 +66,8 @@ public class ReceiptListAdapter extends RecyclerView.Adapter<ReceiptListAdapter.
             holder.detailsItemView.setText(current.getDetails());
             holder.costItemView.setText("$" + Integer.toString(current.getCost()));
             holder.dateItemView.setText(dayString);
-            holder.categoryItemView.setText(current.getCategory());
+            String category = current.getCategory();
+            holder.categoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
 
             //Removes view displaying date if same date with view above
             /*

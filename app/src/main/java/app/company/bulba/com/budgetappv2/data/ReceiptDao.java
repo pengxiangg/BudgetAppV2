@@ -37,6 +37,6 @@ public interface ReceiptDao {
     @Delete
     void deleteReceipt(Receipt receipt);
 
-    @Query("SELECT * FROM receipt_table ORDER BY date DESC")
+    @Query("SELECT * FROM receipt_table ORDER BY date DESC, id DESC")
     LiveData<List<Receipt>> getAllReceiptsDesc();
 }

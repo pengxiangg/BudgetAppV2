@@ -85,13 +85,6 @@ public class BudgetFragment extends Fragment {
                         int position = viewHolder.getAdapterPosition();
                         final Budget myBudget = adapter.getBudgetAtPosition(position);
 
-                        String category = myBudget.getBudgetCategory();
-                        int limit = myBudget.getLimit();
-
-                        Calendar calendar = Calendar.getInstance();
-                        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy/MM");
-                        String dateMonth = mdformat.format(calendar.getTime());
-
                         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         LayoutInflater inflater = getActivity().getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.checkbox, null);
@@ -102,19 +95,21 @@ public class BudgetFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         String category = myBudget.getBudgetCategory();
-                                        int limit = myBudget.getLimit();
 
                                         Calendar calendar = Calendar.getInstance();
                                         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy/MM");
                                         String dateMonth = mdformat.format(calendar.getTime());
 
+                                        //If user wants to delete budget limit for current month from monthBudget
                                         if(checkBox.isChecked()) {
                                             int mbId = mMonthBudgetViewModel.getMhId(category, dateMonth);
                                             int spent = mMonthBudgetViewModel.getMhSpent(mbId);
                                             if(spent==0){
+                                                //Delete everything if spending is 0
                                                 MonthBudget monthBudget = mMonthBudgetViewModel.getMonthBudget(mbId);
                                                 mMonthBudgetViewModel.delete(monthBudget);
                                             } else {
+                                                //Change limit and remainder if there is spending
                                                 mMonthBudgetViewModel.updateMhLimit(0, mbId);
                                                 mMonthBudgetViewModel.updateMhRemainder(0, mbId);
                                             }

@@ -47,8 +47,9 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
     public void onBindViewHolder(BudgetViewHolder holder, int position) {
         if(mBudget != null) {
             Budget current = mBudget.get(position);
-            holder.categoryItemView.setText(current.getBudgetCategory());
-            holder.limitItemView.setText(Integer.toString(current.getLimit()));
+            String category = current.getBudgetCategory();
+            holder.categoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
+            holder.limitItemView.setText("$"+Integer.toString(current.getLimit()));
         } else {
             holder.categoryItemView.setText("No Category");
             holder.limitItemView.setText("No Limit");

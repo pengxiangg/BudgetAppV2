@@ -68,7 +68,8 @@ public class MonthBudgetListAdapter extends RecyclerView.Adapter<MonthBudgetList
             }
             holder.mhDateItemView.setText(MonthString);
 
-            holder.mhCategoryItemView.setText(current.getMhCategory());
+            String category = current.getMhCategory();
+            holder.mhCategoryItemView.setText(category.substring(0,1).toUpperCase()+category.substring(1).toLowerCase());
 
             int limit = current.getMhlimit();
             if(limit!=0) {
