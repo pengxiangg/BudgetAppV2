@@ -125,6 +125,10 @@ public class ReceiptFragment extends Fragment {
                             double mbRemainder = mbLimit - newMbSpent;
                             mMonthBudgetViewModel.updateMhRemainder(mbRemainder, mbID);
                         }
+                        if(mbLimit==0&&mbSpent==0){
+                            MonthBudget monthBudget = mMonthBudgetViewModel.getMonthBudget(mbID);
+                            mMonthBudgetViewModel.delete(monthBudget);
+                        }
 
 
                         mReceiptViewModel.deleteReceipt(myReceipt);
