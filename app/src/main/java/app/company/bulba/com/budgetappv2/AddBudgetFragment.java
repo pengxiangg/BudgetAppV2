@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class AddBudgetFragment extends Fragment {
 
         categoryET = getView().findViewById(R.id.category_input_edit_text);
         limitET = getView().findViewById(R.id.limit_edit_text);
+        limitET.setKeyListener(new DecimalDigitsInputFilter());
         budgetModel = ViewModelProviders.of(getActivity()).get(BudgetViewModel.class);
 
         mAllCategories = budgetModel.getAllCategories();

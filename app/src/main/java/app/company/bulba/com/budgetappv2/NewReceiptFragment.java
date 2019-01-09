@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -72,6 +73,7 @@ public class NewReceiptFragment extends Fragment {
         mDetailsEditView = getView().findViewById(R.id.details_editView);
         mDetailsEditView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         mCostEditView = getView().findViewById(R.id.cost_editView);
+        mCostEditView.setKeyListener(new DecimalDigitsInputFilter());
         mDateEditView = getView().findViewById(R.id.date_editView);
         mCategoryEditView = getView().findViewById(R.id.category_editView);
         mCategoryEditView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
